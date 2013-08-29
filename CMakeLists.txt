@@ -24,6 +24,11 @@ SET(PROJECT_DESCRIPTION "RobOptim core NAG plug-in")
 SET(PROJECT_URL "http://github.com/laas/roboptim-core-plugin-nag")
 
 SET(HEADERS
+  ${CMAKE_SOURCE_DIR}/include/roboptim/core/plugin/nag/nag.hh
+  ${CMAKE_SOURCE_DIR}/include/roboptim/core/plugin/nag/nag-differentiable.hh
+  ${CMAKE_SOURCE_DIR}/include/roboptim/core/plugin/nag/nag-nlp.hh
+  ${CMAKE_SOURCE_DIR}/include/roboptim/core/plugin/nag/nag-nlp-sparse.hh
+  ${CMAKE_SOURCE_DIR}/include/roboptim/core/plugin/nag/nag-simplex.hh
   )
 
 SET(PKG_CONFIG_ADDITIONAL_VARIABLES plugindir ${PKG_CONFIG_ADDITIONAL_VARIABLES})
@@ -55,5 +60,7 @@ LINK_DIRECTORIES("${NAG_DIR}/lib")
 
 ADD_SUBDIRECTORY(src)
 ADD_SUBDIRECTORY(tests)
+
+HEADER_INSTALL("${HEADERS}")
 
 SETUP_PROJECT_FINALIZE()
