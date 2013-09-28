@@ -1,7 +1,7 @@
 var a00003 =
 [
-    [ "parent_t", "a00003.html#a6336145f11f6e579f859a3ce891f5130", null ],
-    [ "Simplex", "a00003.html#a8f7171767e35e0477d7dd76d16be0849", null ],
-    [ "~Simplex", "a00003.html#a2cb9f1e5d5b8acd96b11dc2d90b69fbc", null ],
-    [ "solve", "a00003.html#aa3c4c996db2dd759f68fa82ee5da1679", null ]
+    [ "parent_t", "a00003.html#adcf0ab46685cbbf0c982e19c91d6e74c", null ],
+    [ "NagSolverNlp", "a00003.html#a24931f037837930d7ecc0de569299bc7", null ],
+    [ "~NagSolverNlp", "a00003.html#a5a268d8694ad3df56f669880718c0327", null ],
+    [ "solve", "a00003.html#a3842c34e1745641b9518a073df0a58b3", null ]
 ];

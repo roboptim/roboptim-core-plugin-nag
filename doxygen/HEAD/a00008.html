@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>nag.cc File Reference</title>
+<title>nag-nlp-sparse.cc File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css">
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
@@ -60,50 +60,56 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">nag.cc File Reference</div>  </div>
+<div class="title">nag-nlp-sparse.cc File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;cassert&gt;</code><br/>
 <code>#include &lt;cstring&gt;</code><br/>
-<code>#include &lt;roboptim/core/function.hh&gt;</code><br/>
+<code>#include &lt;boost/format.hpp&gt;</code><br/>
+<code>#include &lt;roboptim/core/differentiable-function.hh&gt;</code><br/>
 <code>#include &lt;nag.h&gt;</code><br/>
 <code>#include &lt;nage04.h&gt;</code><br/>
-<code>#include &lt;<a class="el" href="a00009.html">roboptim/core/plugin/nag/nag.hh</a>&gt;</code><br/>
-</div><div class="textblock"><div class="dynheader">
-Include dependency graph for nag.cc:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00022.png" border="0" usemap="#nag_8cc" alt=""/></div>
-<map name="nag_8cc" id="nag_8cc">
-<area shape="rect" id="node13" href="a00009.html" title="roboptim/core/plugin/nag/nag.hh" alt="" coords="555,86,768,117"/></map>
-</div>
+<code>#include &lt;<a class="el" href="a00009.html">roboptim/core/plugin/nag/nag-nlp-sparse.hh</a>&gt;</code><br/>
 </div><table class="memberdecls">
 <tr><td colspan="2"><h2><a name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00010.html">roboptim</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00011.html">roboptim::detail</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00016.html">roboptim</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00017.html">roboptim::detail</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight"><p>ROBOPTIM_CORE_CFSQP_PLUGIN_CHECK_GRADIENT. </p>
+<br/></td></tr>
 <tr><td colspan="2"><h2><a name="define-members"></a>
 Defines</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00008.html#acb2c4af27cae03e62f4c943fb377b5a3">DEFINE_PARAMETER</a>(KEY, DESCRIPTION, VALUE)</td></tr>
 <tr><td colspan="2"><h2><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="a00001.html">roboptim::NagSolver</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00008.html#ab9fd58b547a8e6d3aacf1a9dd84a97c1">NagSolver</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">typedef <br class="typebreak"/>
+<a class="el" href="a00004.html">roboptim::NagSolverNlpSparse</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00008.html#a9b3b35998b9f2a64197643ff1d809fba">NagSolverNlpSparse</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef roboptim::Solver<br class="typebreak"/>
-&lt; roboptim::Function, <br class="typebreak"/>
-boost::mpl::vector&lt;&gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00008.html#a7dc0215652034b26ae5ae637766cc5a5">solver_t</a></td></tr>
+&lt; ::roboptim::GenericDifferentiableFunction<br class="typebreak"/>
+&lt; ::roboptim::EigenMatrixSparse &gt;<br class="typebreak"/>
+, boost::mpl::vector<br class="typebreak"/>
+&lt; ::roboptim::GenericNumericLinearFunction<br class="typebreak"/>
+&lt; ::roboptim::EigenMatrixSparse &gt;<br class="typebreak"/>
+,::roboptim::GenericDifferentiableFunction<br class="typebreak"/>
+&lt; ::roboptim::EigenMatrixSparse &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00008.html#a76d543bee3f5b1bfb6e993ec07191eb2">solver_t</a></td></tr>
 <tr><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00011.html#a53b414c9737e32196b21b204d52765df">roboptim::detail::nagSolverCallback</a> (double xc, double *fc, Nag_Comm *comm)</td></tr>
+<tr><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
+<tr><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a00016.html#a0e3f0dc1f2c199b5abc7db9867cc6d8d">roboptim::checkJacobian</a> (const GenericDifferentiableFunction&lt; T &gt; &amp;, int, U &amp;)  throw ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00017.html#a135176c2f6ba3dbad3886ff06414fab4">roboptim::detail::usrfun</a> (::Integer *status,::Integer n, const double x[],::Integer needf,::Integer nf, double f[],::Integer needg,::Integer leng, double g[], Nag_Comm *comm)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00016.html#ad1936859e4e3266ac95d8fcea308a667">roboptim::cxxtoCString</a> (std::string s)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">ROBOPTIM_DLLEXPORT unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00008.html#a4ddee346c9488925f266b831b229d18a">getSizeOfProblem</a> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">ROBOPTIM_DLLEXPORT <a class="el" href="a00004.html#a2e8c7d1443631ad972c650ab1b7d3469">solver_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00008.html#ab646ae74ee3acbf023f7460e0362771e">create</a> (const NagSolver::problem_t &amp;pb)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">ROBOPTIM_DLLEXPORT void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00008.html#af992438f02837bfe836ba0a937747829">destroy</a> (<a class="el" href="a00004.html#a2e8c7d1443631ad972c650ab1b7d3469">solver_t</a> *p)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">ROBOPTIM_DLLEXPORT const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00008.html#a25ff9384fbf0c8e416a686a67c7d1fdd">getTypeIdOfConstraintsList</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">ROBOPTIM_DLLEXPORT <a class="el" href="a00006.html#a2e8c7d1443631ad972c650ab1b7d3469">solver_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00008.html#af28481b59662eeebdeeefe34b0ac7b17">create</a> (const NagSolverNlpSparse::problem_t &amp;pb)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">ROBOPTIM_DLLEXPORT void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00008.html#af992438f02837bfe836ba0a937747829">destroy</a> (<a class="el" href="a00006.html#a2e8c7d1443631ad972c650ab1b7d3469">solver_t</a> *p)</td></tr>
 </table>
 <hr/><h2>Define Documentation</h2>
-<a class="anchor" id="acb2c4af27cae03e62f4c943fb377b5a3"></a><!-- doxytag: member="nag.cc::DEFINE_PARAMETER" ref="acb2c4af27cae03e62f4c943fb377b5a3" args="(KEY, DESCRIPTION, VALUE)" -->
+<a class="anchor" id="acb2c4af27cae03e62f4c943fb377b5a3"></a><!-- doxytag: member="nag&#45;nlp&#45;sparse.cc::DEFINE_PARAMETER" ref="acb2c4af27cae03e62f4c943fb377b5a3" args="(KEY, DESCRIPTION, VALUE)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define <a class="el" href="a00008.html#acb2c4af27cae03e62f4c943fb377b5a3">DEFINE_PARAMETER</a></td>
+          <td class="memname">#define <a class="el" href="a00014.html#acb2c4af27cae03e62f4c943fb377b5a3">DEFINE_PARAMETER</a></td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">KEY, </td>
@@ -133,17 +139,17 @@ Functions</h2></td></tr>
     this-&gt;parameters_[KEY].value = VALUE;   \
   } <span class="keywordflow">while</span> (0)
 </pre></div>
-<p>Referenced by <a class="el" href="a00001.html#ad4a434f4dc2bbec4ffbc4125fbe1bf1e">roboptim::NagSolver::NagSolver()</a>.</p>
+<p>Referenced by <a class="el" href="a00004.html#a6f021709c41d9b45513016827d0934ca">roboptim::NagSolverNlpSparse::NagSolverNlpSparse()</a>.</p>
 
 </div>
 </div>
 <hr/><h2>Typedef Documentation</h2>
-<a class="anchor" id="ab9fd58b547a8e6d3aacf1a9dd84a97c1"></a><!-- doxytag: member="nag.cc::NagSolver" ref="ab9fd58b547a8e6d3aacf1a9dd84a97c1" args="" -->
+<a class="anchor" id="a9b3b35998b9f2a64197643ff1d809fba"></a><!-- doxytag: member="nag&#45;nlp&#45;sparse.cc::NagSolverNlpSparse" ref="a9b3b35998b9f2a64197643ff1d809fba" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef <a class="el" href="a00001.html">roboptim::NagSolver</a> <a class="el" href="a00008.html#ab9fd58b547a8e6d3aacf1a9dd84a97c1">NagSolver</a></td>
+          <td class="memname">typedef <a class="el" href="a00004.html">roboptim::NagSolverNlpSparse</a> <a class="el" href="a00008.html#a9b3b35998b9f2a64197643ff1d809fba">NagSolverNlpSparse</a></td>
         </tr>
       </table>
 </div>
@@ -151,12 +157,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a7dc0215652034b26ae5ae637766cc5a5"></a><!-- doxytag: member="nag.cc::solver_t" ref="a7dc0215652034b26ae5ae637766cc5a5" args="" -->
+<a class="anchor" id="a76d543bee3f5b1bfb6e993ec07191eb2"></a><!-- doxytag: member="nag&#45;nlp&#45;sparse.cc::solver_t" ref="a76d543bee3f5b1bfb6e993ec07191eb2" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef roboptim::Solver&lt;roboptim::Function, boost::mpl::vector&lt;&gt; &gt; <a class="el" href="a00004.html#a2e8c7d1443631ad972c650ab1b7d3469">solver_t</a></td>
+          <td class="memname">typedef roboptim::Solver&lt; ::roboptim::GenericDifferentiableFunction&lt; ::roboptim::EigenMatrixSparse&gt;, boost::mpl::vector&lt; ::roboptim::GenericNumericLinearFunction&lt; ::roboptim::EigenMatrixSparse&gt;, ::roboptim::GenericDifferentiableFunction&lt; ::roboptim::EigenMatrixSparse&gt; &gt; &gt; <a class="el" href="a00006.html#a2e8c7d1443631ad972c650ab1b7d3469">solver_t</a></td>
         </tr>
       </table>
 </div>
@@ -165,14 +171,14 @@ Functions</h2></td></tr>
 </div>
 </div>
 <hr/><h2>Function Documentation</h2>
-<a class="anchor" id="ab646ae74ee3acbf023f7460e0362771e"></a><!-- doxytag: member="nag.cc::create" ref="ab646ae74ee3acbf023f7460e0362771e" args="(const NagSolver::problem_t &amp;pb)" -->
+<a class="anchor" id="af28481b59662eeebdeeefe34b0ac7b17"></a><!-- doxytag: member="nag&#45;nlp&#45;sparse.cc::create" ref="af28481b59662eeebdeeefe34b0ac7b17" args="(const NagSolverNlpSparse::problem_t &amp;pb)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">ROBOPTIM_DLLEXPORT <a class="el" href="a00004.html#a2e8c7d1443631ad972c650ab1b7d3469">solver_t</a> * <a class="el" href="a00008.html#ab646ae74ee3acbf023f7460e0362771e">create</a> </td>
+          <td class="memname">ROBOPTIM_DLLEXPORT <a class="el" href="a00006.html#a2e8c7d1443631ad972c650ab1b7d3469">solver_t</a> * <a class="el" href="a00014.html#ab646ae74ee3acbf023f7460e0362771e">create</a> </td>
           <td>(</td>
-          <td class="paramtype">const NagSolver::problem_t &amp;&#160;</td>
+          <td class="paramtype">const NagSolverNlpSparse::problem_t &amp;&#160;</td>
           <td class="paramname"><em>pb</em></td><td>)</td>
           <td></td>
         </tr>
@@ -182,14 +188,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="af992438f02837bfe836ba0a937747829"></a><!-- doxytag: member="nag.cc::destroy" ref="af992438f02837bfe836ba0a937747829" args="(solver_t *p)" -->
+<a class="anchor" id="af992438f02837bfe836ba0a937747829"></a><!-- doxytag: member="nag&#45;nlp&#45;sparse.cc::destroy" ref="af992438f02837bfe836ba0a937747829" args="(solver_t *p)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">ROBOPTIM_DLLEXPORT void <a class="el" href="a00008.html#af992438f02837bfe836ba0a937747829">destroy</a> </td>
+          <td class="memname">ROBOPTIM_DLLEXPORT void <a class="el" href="a00014.html#af992438f02837bfe836ba0a937747829">destroy</a> </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="a00004.html#a2e8c7d1443631ad972c650ab1b7d3469">solver_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="a00006.html#a2e8c7d1443631ad972c650ab1b7d3469">solver_t</a> *&#160;</td>
           <td class="paramname"><em>p</em></td><td>)</td>
           <td></td>
         </tr>
@@ -199,12 +205,28 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a4ddee346c9488925f266b831b229d18a"></a><!-- doxytag: member="nag.cc::getSizeOfProblem" ref="a4ddee346c9488925f266b831b229d18a" args="()" -->
+<a class="anchor" id="a4ddee346c9488925f266b831b229d18a"></a><!-- doxytag: member="nag&#45;nlp&#45;sparse.cc::getSizeOfProblem" ref="a4ddee346c9488925f266b831b229d18a" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">ROBOPTIM_DLLEXPORT unsigned <a class="el" href="a00008.html#a4ddee346c9488925f266b831b229d18a">getSizeOfProblem</a> </td>
+          <td class="memname">ROBOPTIM_DLLEXPORT unsigned <a class="el" href="a00014.html#a4ddee346c9488925f266b831b229d18a">getSizeOfProblem</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a25ff9384fbf0c8e416a686a67c7d1fdd"></a><!-- doxytag: member="nag&#45;nlp&#45;sparse.cc::getTypeIdOfConstraintsList" ref="a25ff9384fbf0c8e416a686a67c7d1fdd" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ROBOPTIM_DLLEXPORT const char* <a class="el" href="a00014.html#a25ff9384fbf0c8e416a686a67c7d1fdd">getTypeIdOfConstraintsList</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -222,7 +244,7 @@ Functions</h2></td></tr>
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Defines</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Defines</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -233,6 +255,6 @@ Functions</h2></td></tr>
 
   <div id="nav-path" class="navpath">
     <ul>
-      <li class="navelem"><a class="el" href="a00008.html">nag.cc</a>      </li>
+      <li class="navelem"><a class="el" href="a00008.html">nag-nlp-sparse.cc</a>      </li>
 </body>
 </html>

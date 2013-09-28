@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>roboptim::nag::Simplex Class Reference</title>
+<title>roboptim::NagSolverNlp Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css">
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
@@ -59,42 +59,42 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a>  </div>
   <div class="headertitle">
-<div class="title">roboptim::nag::Simplex Class Reference<div class="ingroups"><a class="el" href="a00015.html">Roboptim_solver</a></div></div>  </div>
+<div class="title">roboptim::NagSolverNlp Class Reference<div class="ingroups"><a class="el" href="a00021.html">Roboptim_solver</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
-<!-- doxytag: class="roboptim::nag::Simplex" -->
-<p><a class="el" href="a00003.html" title="Simplex algorithm: no contrainsts, no gradient needed.">Simplex</a> algorithm: no contrainsts, no gradient needed.  
+<!-- doxytag: class="roboptim::NagSolverNlp" -->
+<p>Non-linear solver.  
  <a href="a00003.html#details">More...</a></p>
 
-<p><code>#include &lt;roboptim/core/plugin/nag/nag-simplex.hh&gt;</code></p>
+<p><code>#include &lt;roboptim/core/plugin/nag/nag-nlp.hh&gt;</code></p>
 
-<p><a href="a00027.html">List of all members.</a></p>
+<p><a href="a00024.html">List of all members.</a></p>
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-types"></a>
 Public Types</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef Solver<br class="typebreak"/>
 &lt; DifferentiableFunction, <br class="typebreak"/>
-boost::mpl::vector&lt;&gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00003.html#a6336145f11f6e579f859a3ce891f5130">parent_t</a></td></tr>
+boost::mpl::vector<br class="typebreak"/>
+&lt; NumericLinearFunction, <br class="typebreak"/>
+DifferentiableFunction &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00003.html#adcf0ab46685cbbf0c982e19c91d6e74c">parent_t</a></td></tr>
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00003.html#a8f7171767e35e0477d7dd76d16be0849">Simplex</a> (const problem_t &amp;pb)  throw ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00003.html#a2cb9f1e5d5b8acd96b11dc2d90b69fbc">~Simplex</a> ()  throw ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00003.html#aa3c4c996db2dd759f68fa82ee5da1679">solve</a> ()  throw ()</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Solve the problem.  <a href="#aa3c4c996db2dd759f68fa82ee5da1679"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00003.html#a24931f037837930d7ecc0de569299bc7">NagSolverNlp</a> (const problem_t &amp;pb)  throw ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00003.html#a5a268d8694ad3df56f669880718c0327">~NagSolverNlp</a> ()  throw ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00003.html#a3842c34e1745641b9518a073df0a58b3">solve</a> ()  throw ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Solve the problem.  <a href="#a3842c34e1745641b9518a073df0a58b3"></a><br/></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="a00003.html" title="Simplex algorithm: no contrainsts, no gradient needed.">Simplex</a> algorithm: no contrainsts, no gradient needed. </p>
-<p>Finds an approximation to a minimum of a function F x of n variables. You must supply a function to calculate the value of F x for any set of values of the variables.</p>
-<p>The method is iterative. A simplex of n+1 points is set up in the n-dimensional space of the variables (for example, in two dimensions the simplex is a triangle) under the assumption that the problem has been scaled so that the values of the independent variables at the minimum are of order unity. The starting point you provided is the first vertex of the simplex, the remaining n vertices are generated internally (see Parkinson and Hutchinson (1972)). The vertex of the simplex with the largest function value is reflected in the centre of gravity of the remaining vertices and the function value at this new point is compared with the remaining function values. Depending on the outcome of this test the new point is accepted or rejected, a further expansion move may be made, or a contraction may be carried out. When no further progress can be made the sides of the simplex are reduced in length and the method is repeated.</p>
-<p>The method tends to be slow, but it is robust and therefore very useful for functions that are subject to inaccuracies.</p>
-<dl class="see"><dt><b>See also:</b></dt><dd><a href="http://www.nag.com/numeric/CL/nagdoc_cl23/html/E04/e04ccc.html">http://www.nag.com/numeric/CL/nagdoc_cl23/html/E04/e04ccc.html</a> </dd></dl>
+<div class="textblock"><p>Non-linear solver. </p>
+<p>Minimize an arbitrary smooth function subject to constraints (which may include simple bounds on the variables, linear constraints and smooth nonlinear constraints) using a sequential quadratic programming (SQP) method. As many first derivatives as possible should be supplied by you; any unspecified derivatives are approximated by finite differences. It is not intended for large sparse problems.</p>
+<dl class="see"><dt><b>See also:</b></dt><dd><a href="http://www.nag.com/numeric/CL/nagdoc_cl23/html/E04/e04wdc.html">http://www.nag.com/numeric/CL/nagdoc_cl23/html/E04/e04wdc.html</a> </dd></dl>
 </div><hr/><h2>Member Typedef Documentation</h2>
-<a class="anchor" id="a6336145f11f6e579f859a3ce891f5130"></a><!-- doxytag: member="roboptim::nag::Simplex::parent_t" ref="a6336145f11f6e579f859a3ce891f5130" args="" -->
+<a class="anchor" id="adcf0ab46685cbbf0c982e19c91d6e74c"></a><!-- doxytag: member="roboptim::NagSolverNlp::parent_t" ref="adcf0ab46685cbbf0c982e19c91d6e74c" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef Solver&lt;DifferentiableFunction, boost::mpl::vector&lt;&gt; &gt; <a class="el" href="a00003.html#a6336145f11f6e579f859a3ce891f5130">roboptim::nag::Simplex::parent_t</a></td>
+          <td class="memname">typedef Solver&lt; DifferentiableFunction, boost::mpl::vector&lt; NumericLinearFunction, DifferentiableFunction&gt; &gt; <a class="el" href="a00003.html#adcf0ab46685cbbf0c982e19c91d6e74c">roboptim::NagSolverNlp::parent_t</a></td>
         </tr>
       </table>
 </div>
@@ -103,12 +103,12 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/><h2>Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a8f7171767e35e0477d7dd76d16be0849"></a><!-- doxytag: member="roboptim::nag::Simplex::Simplex" ref="a8f7171767e35e0477d7dd76d16be0849" args="(const problem_t &amp;pb)" -->
+<a class="anchor" id="a24931f037837930d7ecc0de569299bc7"></a><!-- doxytag: member="roboptim::NagSolverNlp::NagSolverNlp" ref="a24931f037837930d7ecc0de569299bc7" args="(const problem_t &amp;pb)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="a00003.html#a8f7171767e35e0477d7dd76d16be0849">roboptim::nag::Simplex::Simplex</a> </td>
+          <td class="memname"><a class="el" href="a00003.html#a24931f037837930d7ecc0de569299bc7">roboptim::NagSolverNlp::NagSolverNlp</a> </td>
           <td>(</td>
           <td class="paramtype">const problem_t &amp;&#160;</td>
           <td class="paramname"><em>pb</em></td><td>)</td>
@@ -118,16 +118,14 @@ Public Member Functions</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>References <a class="el" href="a00006.html#acb2c4af27cae03e62f4c943fb377b5a3">DEFINE_PARAMETER</a>.</p>
-
 </div>
 </div>
-<a class="anchor" id="a2cb9f1e5d5b8acd96b11dc2d90b69fbc"></a><!-- doxytag: member="roboptim::nag::Simplex::~Simplex" ref="a2cb9f1e5d5b8acd96b11dc2d90b69fbc" args="()" -->
+<a class="anchor" id="a5a268d8694ad3df56f669880718c0327"></a><!-- doxytag: member="roboptim::NagSolverNlp::~NagSolverNlp" ref="a5a268d8694ad3df56f669880718c0327" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="a00003.html#a2cb9f1e5d5b8acd96b11dc2d90b69fbc">roboptim::nag::Simplex::~Simplex</a> </td>
+          <td class="memname"><a class="el" href="a00003.html#a5a268d8694ad3df56f669880718c0327">roboptim::NagSolverNlp::~NagSolverNlp</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td>  throw ()<code> [virtual]</code></td>
@@ -139,12 +137,12 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="aa3c4c996db2dd759f68fa82ee5da1679"></a><!-- doxytag: member="roboptim::nag::Simplex::solve" ref="aa3c4c996db2dd759f68fa82ee5da1679" args="()" -->
+<a class="anchor" id="a3842c34e1745641b9518a073df0a58b3"></a><!-- doxytag: member="roboptim::NagSolverNlp::solve" ref="a3842c34e1745641b9518a073df0a58b3" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="a00003.html#aa3c4c996db2dd759f68fa82ee5da1679">roboptim::nag::Simplex::solve</a> </td>
+          <td class="memname">void <a class="el" href="a00003.html#a3842c34e1745641b9518a073df0a58b3">roboptim::NagSolverNlp::solve</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td>  throw ()</td>
@@ -155,7 +153,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Solve the problem. </p>
 
-<p>References <a class="el" href="a00013.html#aeb32e1d9ddce685d40f3cf8ac5902522">roboptim::nag::detail::printFunction()</a>, and <a class="el" href="a00013.html#a3f704fe5230fa470845cc3cf8d6676b4">roboptim::nag::detail::solverCallback()</a>.</p>
+<p>References <a class="el" href="a00017.html#a8c63abb1d772c4a9593fb69e291bbba2">roboptim::detail::confun()</a>, and <a class="el" href="a00017.html#a5b8cb0fa82825e3aa190f03c67f38b82">roboptim::detail::objfun()</a>.</p>
 
 </div>
 </div>
@@ -166,7 +164,7 @@ Public Member Functions</h2></td></tr>
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Defines</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Defines</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -177,8 +175,7 @@ Public Member Functions</h2></td></tr>
 
   <div id="nav-path" class="navpath">
     <ul>
-      <li class="navelem"><a class="el" href="a00010.html">roboptim</a>      </li>
-      <li class="navelem"><a class="el" href="a00012.html">nag</a>      </li>
-      <li class="navelem"><a class="el" href="a00003.html">Simplex</a>      </li>
+      <li class="navelem"><a class="el" href="a00016.html">roboptim</a>      </li>
+      <li class="navelem"><a class="el" href="a00003.html">NagSolverNlp</a>      </li>
 </body>
 </html>

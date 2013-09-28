@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>roboptim::nag::detail Namespace Reference</title>
+<title>nag-simplex.hh File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css">
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
@@ -12,9 +12,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
-      <li class="current"><a href="namespaces.html"><span>Namespaces</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
-      <li><a href="files.html"><span>Files</span></a></li>
+      <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -35,8 +35,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
-      <li><a href="namespaces.html"><span>Namespace&#160;List</span></a></li>
-      <li><a href="namespacemembers.html"><span>Namespace&#160;Members</span></a></li>
+      <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div>
@@ -55,88 +55,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div id="doc-content">
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a>  </div>
   <div class="headertitle">
-<div class="title">roboptim::nag::detail Namespace Reference</div>  </div>
+<div class="title">nag-simplex.hh File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<table class="memberdecls">
-<tr><td colspan="2"><h2><a name="func-members"></a>
-Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00013.html#a3f704fe5230fa470845cc3cf8d6676b4">solverCallback</a> (Integer ROBOPTIM_DEBUG_ONLY(n), const double xc[], double *fc, Nag_Comm *comm)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00013.html#aeb32e1d9ddce685d40f3cf8ac5902522">printFunction</a> (const Nag_Search_State *ROBOPTIM_DEBUG_ONLY(st), Nag_Comm *ROBOPTIM_DEBUG_ONLY(comm))</td></tr>
+<div class="textblock"><code>#include &lt;vector&gt;</code><br/>
+<code>#include &lt;roboptim/core/solver.hh&gt;</code><br/>
+<code>#include &lt;roboptim/core/differentiable-function.hh&gt;</code><br/>
+</div><table class="memberdecls">
+<tr><td colspan="2"><h2><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00005.html">roboptim::nag::Simplex</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="a00005.html" title="Simplex algorithm: no contrainsts, no gradient needed.">Simplex</a> algorithm: no contrainsts, no gradient needed.  <a href="a00005.html#details">More...</a><br/></td></tr>
+<tr><td colspan="2"><h2><a name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00016.html">roboptim</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00018.html">roboptim::nag</a></td></tr>
 </table>
-<hr/><h2>Function Documentation</h2>
-<a class="anchor" id="aeb32e1d9ddce685d40f3cf8ac5902522"></a><!-- doxytag: member="roboptim::nag::detail::printFunction" ref="aeb32e1d9ddce685d40f3cf8ac5902522" args="(const Nag_Search_State *ROBOPTIM_DEBUG_ONLY(st), Nag_Comm *ROBOPTIM_DEBUG_ONLY(comm))" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">static void <a class="el" href="a00013.html#aeb32e1d9ddce685d40f3cf8ac5902522">roboptim::nag::detail::printFunction</a> </td>
-          <td>(</td>
-          <td class="paramtype">const Nag_Search_State *&#160;</td>
-          <td class="paramname"><em>ROBOPTIM_DEBUG_ONLY</em>st, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Nag_Comm *&#160;</td>
-          <td class="paramname"><em>ROBOPTIM_DEBUG_ONLY</em>comm&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td><code> [static]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Referenced by <a class="el" href="a00003.html#aa3c4c996db2dd759f68fa82ee5da1679">roboptim::nag::Simplex::solve()</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a3f704fe5230fa470845cc3cf8d6676b4"></a><!-- doxytag: member="roboptim::nag::detail::solverCallback" ref="a3f704fe5230fa470845cc3cf8d6676b4" args="(Integer ROBOPTIM_DEBUG_ONLY(n), const double xc[], double *fc, Nag_Comm *comm)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">static void <a class="el" href="a00013.html#a3f704fe5230fa470845cc3cf8d6676b4">roboptim::nag::detail::solverCallback</a> </td>
-          <td>(</td>
-          <td class="paramtype">Integer &#160;</td>
-          <td class="paramname"><em>ROBOPTIM_DEBUG_ONLY</em>n, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const double&#160;</td>
-          <td class="paramname"><em>xc</em>[], </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double *&#160;</td>
-          <td class="paramname"><em>fc</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Nag_Comm *&#160;</td>
-          <td class="paramname"><em>comm</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td><code> [static]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Referenced by <a class="el" href="a00003.html#aa3c4c996db2dd759f68fa82ee5da1679">roboptim::nag::Simplex::solve()</a>.</p>
-
-</div>
-</div>
 </div><!-- contents -->
 </div>
 <!-- window showing the filter options -->
@@ -144,7 +81,7 @@ Functions</h2></td></tr>
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Defines</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Defines</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -155,8 +92,6 @@ Functions</h2></td></tr>
 
   <div id="nav-path" class="navpath">
     <ul>
-      <li class="navelem"><a class="el" href="a00010.html">roboptim</a>      </li>
-      <li class="navelem"><a class="el" href="a00012.html">nag</a>      </li>
-      <li class="navelem"><a class="el" href="a00013.html">detail</a>      </li>
+      <li class="navelem"><a class="el" href="a00013.html">nag-simplex.hh</a>      </li>
 </body>
 </html>
