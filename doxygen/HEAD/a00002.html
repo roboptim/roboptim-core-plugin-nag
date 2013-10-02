@@ -81,6 +81,8 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00002.html#ae058bd0b86f98ee14fa066e69f2dee2a">~NagSolverDifferentiable</a> ()  throw ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00002.html#a7fd4c0bc5c60c0cc738fa239536efd7e">solve</a> ()  throw ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Solve the problem.  <a href="#a7fd4c0bc5c60c0cc738fa239536efd7e"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00002.html#abe24d98530a7e3e5860a41ad1a3b06bc">setIterationCallback</a> (callback_t <a class="el" href="a00002.html#ad9ee9d822aeb4cb3d275e2946a69fcd6">callback</a>)  throw (std::runtime_error)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">const callback_t &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00002.html#ad9ee9d822aeb4cb3d275e2946a69fcd6">callback</a> () const   throw ()</td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Solver for C1 function with gradient computation, no constraint. </p>
@@ -137,6 +139,41 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/><h2>Member Function Documentation</h2>
+<a class="anchor" id="ad9ee9d822aeb4cb3d275e2946a69fcd6"></a><!-- doxytag: member="roboptim::NagSolverDifferentiable::callback" ref="ad9ee9d822aeb4cb3d275e2946a69fcd6" args="() const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const callback_t&amp; <a class="el" href="a00002.html#ad9ee9d822aeb4cb3d275e2946a69fcd6">roboptim::NagSolverDifferentiable::callback</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const  throw ()<code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Referenced by <a class="el" href="a00017.html#a69257537ad9dfd64f467da91b6090b62">roboptim::detail::nagSolverCallbackDifferentiable()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abe24d98530a7e3e5860a41ad1a3b06bc"></a><!-- doxytag: member="roboptim::NagSolverDifferentiable::setIterationCallback" ref="abe24d98530a7e3e5860a41ad1a3b06bc" args="(callback_t callback)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="a00002.html#abe24d98530a7e3e5860a41ad1a3b06bc">roboptim::NagSolverDifferentiable::setIterationCallback</a> </td>
+          <td>(</td>
+          <td class="paramtype">callback_t&#160;</td>
+          <td class="paramname"><em>callback</em></td><td>)</td>
+          <td>  throw (std::runtime_error)<code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a7fd4c0bc5c60c0cc738fa239536efd7e"></a><!-- doxytag: member="roboptim::NagSolverDifferentiable::solve" ref="a7fd4c0bc5c60c0cc738fa239536efd7e" args="()" -->
 <div class="memitem">
 <div class="memproto">

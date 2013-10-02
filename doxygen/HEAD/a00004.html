@@ -94,6 +94,8 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00004.html#a654121691335a1c7da8ea90c128f13d0">~NagSolverNlpSparse</a> ()  throw ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00004.html#a95d33fa8e5a017209abc728ef1c16376">solve</a> ()  throw ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Solve the problem.  <a href="#a95d33fa8e5a017209abc728ef1c16376"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00004.html#a60cb70c9f6b0ccbbbedf3efa661a867a">setIterationCallback</a> (callback_t <a class="el" href="a00004.html#a47f584e73e6724604c08233f710af4cb">callback</a>)  throw (std::runtime_error)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">const callback_t &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00004.html#a47f584e73e6724604c08233f710af4cb">callback</a> () const   throw ()</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00004.html#a3c5f04187c0f595f85b457252f12b92b">linearFunctionId</a> = 0</td></tr>
@@ -193,6 +195,41 @@ Static Public Attributes</h2></td></tr>
 </div>
 </div>
 <hr/><h2>Member Function Documentation</h2>
+<a class="anchor" id="a47f584e73e6724604c08233f710af4cb"></a><!-- doxytag: member="roboptim::NagSolverNlpSparse::callback" ref="a47f584e73e6724604c08233f710af4cb" args="() const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const callback_t&amp; <a class="el" href="a00004.html#a47f584e73e6724604c08233f710af4cb">roboptim::NagSolverNlpSparse::callback</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const  throw ()<code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Referenced by <a class="el" href="a00017.html#a135176c2f6ba3dbad3886ff06414fab4">roboptim::detail::usrfun()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a60cb70c9f6b0ccbbbedf3efa661a867a"></a><!-- doxytag: member="roboptim::NagSolverNlpSparse::setIterationCallback" ref="a60cb70c9f6b0ccbbbedf3efa661a867a" args="(callback_t callback)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="a00004.html#a60cb70c9f6b0ccbbbedf3efa661a867a">roboptim::NagSolverNlpSparse::setIterationCallback</a> </td>
+          <td>(</td>
+          <td class="paramtype">callback_t&#160;</td>
+          <td class="paramname"><em>callback</em></td><td>)</td>
+          <td>  throw (std::runtime_error)<code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a95d33fa8e5a017209abc728ef1c16376"></a><!-- doxytag: member="roboptim::NagSolverNlpSparse::solve" ref="a95d33fa8e5a017209abc728ef1c16376" args="()" -->
 <div class="memitem">
 <div class="memproto">
