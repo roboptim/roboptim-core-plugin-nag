@@ -75,8 +75,8 @@ Public Types</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef Solver<br class="typebreak"/>
 &lt; DifferentiableFunction, <br class="typebreak"/>
 boost::mpl::vector<br class="typebreak"/>
-&lt; NumericLinearFunction, <br class="typebreak"/>
-DifferentiableFunction &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00003.html#adcf0ab46685cbbf0c982e19c91d6e74c">parent_t</a></td></tr>
+&lt; LinearFunction, <br class="typebreak"/>
+DifferentiableFunction &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00003.html#af282944b006921e483f1fccb1eb09a74">parent_t</a></td></tr>
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00003.html#a24931f037837930d7ecc0de569299bc7">NagSolverNlp</a> (const problem_t &amp;pb)  throw ()</td></tr>
@@ -91,12 +91,12 @@ Public Member Functions</h2></td></tr>
 <p>Minimize an arbitrary smooth function subject to constraints (which may include simple bounds on the variables, linear constraints and smooth nonlinear constraints) using a sequential quadratic programming (SQP) method. As many first derivatives as possible should be supplied by you; any unspecified derivatives are approximated by finite differences. It is not intended for large sparse problems.</p>
 <dl class="see"><dt><b>See also:</b></dt><dd><a href="http://www.nag.com/numeric/CL/nagdoc_cl23/html/E04/e04wdc.html">http://www.nag.com/numeric/CL/nagdoc_cl23/html/E04/e04wdc.html</a> </dd></dl>
 </div><hr/><h2>Member Typedef Documentation</h2>
-<a class="anchor" id="adcf0ab46685cbbf0c982e19c91d6e74c"></a><!-- doxytag: member="roboptim::NagSolverNlp::parent_t" ref="adcf0ab46685cbbf0c982e19c91d6e74c" args="" -->
+<a class="anchor" id="af282944b006921e483f1fccb1eb09a74"></a><!-- doxytag: member="roboptim::NagSolverNlp::parent_t" ref="af282944b006921e483f1fccb1eb09a74" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef Solver&lt; DifferentiableFunction, boost::mpl::vector&lt; NumericLinearFunction, DifferentiableFunction&gt; &gt; <a class="el" href="a00003.html#adcf0ab46685cbbf0c982e19c91d6e74c">roboptim::NagSolverNlp::parent_t</a></td>
+          <td class="memname">typedef Solver&lt; DifferentiableFunction, boost::mpl::vector&lt; LinearFunction, DifferentiableFunction&gt; &gt; <a class="el" href="a00003.html#af282944b006921e483f1fccb1eb09a74">roboptim::NagSolverNlp::parent_t</a></td>
         </tr>
       </table>
 </div>

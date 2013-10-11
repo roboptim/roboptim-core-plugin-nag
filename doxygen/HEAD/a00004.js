@@ -1,9 +1,10 @@
 var a00004 =
 [
     [ "function_t", "a00004.html#a231329a6e916cb167a3d7cb8e3fbd43f", null ],
-    [ "linearFunction_t", "a00004.html#a058fdd7fdde03a78fc76489f6a4cdc89", null ],
+    [ "linearFunction_t", "a00004.html#a36d4248f86db4ef1d892404abf361f88", null ],
     [ "nonlinearFunction_t", "a00004.html#a14418b956a56269d6e56f96618de8a78", null ],
-    [ "parent_t", "a00004.html#aa8405c65f94b57ee5f60a9e3c01d0e61", null ],
+    [ "numericLinearFunction_t", "a00004.html#a5144dfad8d225a7f77a455753b90b26d", null ],
+    [ "parent_t", "a00004.html#a1a91727a49c12490110157c1538fc033", null ],
     [ "NagSolverNlpSparse", "a00004.html#a6f021709c41d9b45513016827d0934ca", null ],
     [ "~NagSolverNlpSparse", "a00004.html#a654121691335a1c7da8ea90c128f13d0", null ],
     [ "callback", "a00004.html#a47f584e73e6724604c08233f710af4cb", null ],

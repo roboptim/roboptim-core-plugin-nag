@@ -65,6 +65,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="textblock"><code>#include &lt;cassert&gt;</code><br/>
 <code>#include &lt;cstring&gt;</code><br/>
+<code>#include &lt;roboptim/core/numeric-linear-function.hh&gt;</code><br/>
 <code>#include &lt;roboptim/core/differentiable-function.hh&gt;</code><br/>
 <code>#include &lt;nag.h&gt;</code><br/>
 <code>#include &lt;nage04.h&gt;</code><br/>
@@ -85,8 +86,8 @@ Typedefs</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef roboptim::Solver<br class="typebreak"/>
 &lt; roboptim::DifferentiableFunction, <br class="typebreak"/>
 boost::mpl::vector<br class="typebreak"/>
-&lt; roboptim::NumericLinearFunction, <br class="typebreak"/>
-roboptim::DifferentiableFunction &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00010.html#a3fbbf909b1a540990438a3c4d20293a4">solver_t</a></td></tr>
+&lt; roboptim::LinearFunction, <br class="typebreak"/>
+roboptim::DifferentiableFunction &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00010.html#aa2a5122d1fa4c08cb795e3db2ca62354">solver_t</a></td></tr>
 <tr><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00017.html#a8c63abb1d772c4a9593fb69e291bbba2">roboptim::detail::confun</a> (::Integer *mode,::Integer ncnln,::Integer n,::Integer tdcj, const ::Integer[], const double x[], double ccon[], double cjac[],::Integer, Nag_Comm *comm)</td></tr>
@@ -148,12 +149,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a3fbbf909b1a540990438a3c4d20293a4"></a><!-- doxytag: member="nag&#45;nlp.cc::solver_t" ref="a3fbbf909b1a540990438a3c4d20293a4" args="" -->
+<a class="anchor" id="aa2a5122d1fa4c08cb795e3db2ca62354"></a><!-- doxytag: member="nag&#45;nlp.cc::solver_t" ref="aa2a5122d1fa4c08cb795e3db2ca62354" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef roboptim::Solver&lt; roboptim::DifferentiableFunction, boost::mpl::vector&lt;roboptim::NumericLinearFunction, roboptim::DifferentiableFunction&gt; &gt; <a class="el" href="a00006.html#a2e8c7d1443631ad972c650ab1b7d3469">solver_t</a></td>
+          <td class="memname">typedef roboptim::Solver&lt; roboptim::DifferentiableFunction, boost::mpl::vector&lt;roboptim::LinearFunction, roboptim::DifferentiableFunction&gt; &gt; <a class="el" href="a00006.html#a2e8c7d1443631ad972c650ab1b7d3469">solver_t</a></td>
         </tr>
       </table>
 </div>

@@ -21,5 +21,6 @@ var searchData=
   ['nagsolvernlpsparse',['NagSolverNlpSparse',['../a00004.html',1,'roboptim']]],
   ['nagsolvernlpsparse',['NagSolverNlpSparse',['../a00004.html#a6f021709c41d9b45513016827d0934ca',1,'roboptim::NagSolverNlpSparse::NagSolverNlpSparse()'],['../a00008.html#a9b3b35998b9f2a64197643ff1d809fba',1,'NagSolverNlpSparse():&#160;nag-nlp-sparse.cc']]],
   ['nonlinearfunction_5ft',['nonlinearFunction_t',['../a00004.html#a14418b956a56269d6e56f96618de8a78',1,'roboptim::NagSolverNlpSparse']]],
-  ['nonlinearfunctionid',['nonlinearFunctionId',['../a00004.html#afd80a91e3aa351d08b2fc1a55f21c6bc',1,'roboptim::NagSolverNlpSparse']]]
+  ['nonlinearfunctionid',['nonlinearFunctionId',['../a00004.html#afd80a91e3aa351d08b2fc1a55f21c6bc',1,'roboptim::NagSolverNlpSparse']]],
+  ['numericlinearfunction_5ft',['numericLinearFunction_t',['../a00004.html#a5144dfad8d225a7f77a455753b90b26d',1,'roboptim::NagSolverNlpSparse']]]
 ];

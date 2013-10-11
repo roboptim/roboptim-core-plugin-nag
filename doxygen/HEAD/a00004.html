@@ -77,13 +77,15 @@ Public Types</h2></td></tr>
 &lt; GenericDifferentiableFunction<br class="typebreak"/>
 &lt; EigenMatrixSparse &gt;<br class="typebreak"/>
 , boost::mpl::vector<br class="typebreak"/>
-&lt; GenericNumericLinearFunction<br class="typebreak"/>
+&lt; GenericLinearFunction<br class="typebreak"/>
 &lt; EigenMatrixSparse &gt;<br class="typebreak"/>
 , GenericDifferentiableFunction<br class="typebreak"/>
-&lt; EigenMatrixSparse &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00004.html#aa8405c65f94b57ee5f60a9e3c01d0e61">parent_t</a></td></tr>
+&lt; EigenMatrixSparse &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00004.html#a1a91727a49c12490110157c1538fc033">parent_t</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">typedef GenericLinearFunction<br class="typebreak"/>
+&lt; EigenMatrixSparse &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00004.html#a36d4248f86db4ef1d892404abf361f88">linearFunction_t</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef <br class="typebreak"/>
 GenericNumericLinearFunction<br class="typebreak"/>
-&lt; EigenMatrixSparse &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00004.html#a058fdd7fdde03a78fc76489f6a4cdc89">linearFunction_t</a></td></tr>
+&lt; EigenMatrixSparse &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00004.html#a5144dfad8d225a7f77a455753b90b26d">numericLinearFunction_t</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef <br class="typebreak"/>
 GenericDifferentiableFunction<br class="typebreak"/>
 &lt; EigenMatrixSparse &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00004.html#a14418b956a56269d6e56f96618de8a78">nonlinearFunction_t</a></td></tr>
@@ -119,12 +121,12 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a058fdd7fdde03a78fc76489f6a4cdc89"></a><!-- doxytag: member="roboptim::NagSolverNlpSparse::linearFunction_t" ref="a058fdd7fdde03a78fc76489f6a4cdc89" args="" -->
+<a class="anchor" id="a36d4248f86db4ef1d892404abf361f88"></a><!-- doxytag: member="roboptim::NagSolverNlpSparse::linearFunction_t" ref="a36d4248f86db4ef1d892404abf361f88" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef GenericNumericLinearFunction&lt;EigenMatrixSparse&gt; <a class="el" href="a00004.html#a058fdd7fdde03a78fc76489f6a4cdc89">roboptim::NagSolverNlpSparse::linearFunction_t</a></td>
+          <td class="memname">typedef GenericLinearFunction&lt;EigenMatrixSparse&gt; <a class="el" href="a00004.html#a36d4248f86db4ef1d892404abf361f88">roboptim::NagSolverNlpSparse::linearFunction_t</a></td>
         </tr>
       </table>
 </div>
@@ -145,12 +147,25 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aa8405c65f94b57ee5f60a9e3c01d0e61"></a><!-- doxytag: member="roboptim::NagSolverNlpSparse::parent_t" ref="aa8405c65f94b57ee5f60a9e3c01d0e61" args="" -->
+<a class="anchor" id="a5144dfad8d225a7f77a455753b90b26d"></a><!-- doxytag: member="roboptim::NagSolverNlpSparse::numericLinearFunction_t" ref="a5144dfad8d225a7f77a455753b90b26d" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef Solver&lt;GenericDifferentiableFunction&lt;EigenMatrixSparse&gt;, boost::mpl::vector&lt; GenericNumericLinearFunction&lt;EigenMatrixSparse&gt;, GenericDifferentiableFunction&lt;EigenMatrixSparse&gt; &gt; &gt; <a class="el" href="a00004.html#aa8405c65f94b57ee5f60a9e3c01d0e61">roboptim::NagSolverNlpSparse::parent_t</a></td>
+          <td class="memname">typedef GenericNumericLinearFunction&lt;EigenMatrixSparse&gt; <a class="el" href="a00004.html#a5144dfad8d225a7f77a455753b90b26d">roboptim::NagSolverNlpSparse::numericLinearFunction_t</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a1a91727a49c12490110157c1538fc033"></a><!-- doxytag: member="roboptim::NagSolverNlpSparse::parent_t" ref="a1a91727a49c12490110157c1538fc033" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef Solver&lt;GenericDifferentiableFunction&lt;EigenMatrixSparse&gt;, boost::mpl::vector&lt; GenericLinearFunction&lt;EigenMatrixSparse&gt;, GenericDifferentiableFunction&lt;EigenMatrixSparse&gt; &gt; &gt; <a class="el" href="a00004.html#a1a91727a49c12490110157c1538fc033">roboptim::NagSolverNlpSparse::parent_t</a></td>
         </tr>
       </table>
 </div>

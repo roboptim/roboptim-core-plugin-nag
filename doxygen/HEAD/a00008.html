@@ -67,6 +67,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <code>#include &lt;cstring&gt;</code><br/>
 <code>#include &lt;boost/format.hpp&gt;</code><br/>
 <code>#include &lt;roboptim/core/differentiable-function.hh&gt;</code><br/>
+<code>#include &lt;roboptim/core/numeric-linear-function.hh&gt;</code><br/>
 <code>#include &lt;nag.h&gt;</code><br/>
 <code>#include &lt;nage04.h&gt;</code><br/>
 <code>#include &lt;<a class="el" href="a00009.html">roboptim/core/plugin/nag/nag-nlp-sparse.hh</a>&gt;</code><br/>
@@ -88,10 +89,10 @@ Typedefs</h2></td></tr>
 &lt; ::roboptim::GenericDifferentiableFunction<br class="typebreak"/>
 &lt; ::roboptim::EigenMatrixSparse &gt;<br class="typebreak"/>
 , boost::mpl::vector<br class="typebreak"/>
-&lt; ::roboptim::GenericNumericLinearFunction<br class="typebreak"/>
+&lt; ::roboptim::GenericLinearFunction<br class="typebreak"/>
 &lt; ::roboptim::EigenMatrixSparse &gt;<br class="typebreak"/>
 ,::roboptim::GenericDifferentiableFunction<br class="typebreak"/>
-&lt; ::roboptim::EigenMatrixSparse &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00008.html#a76d543bee3f5b1bfb6e993ec07191eb2">solver_t</a></td></tr>
+&lt; ::roboptim::EigenMatrixSparse &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00008.html#a28b772d01b375b2cebe4aae7d950de23">solver_t</a></td></tr>
 <tr><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
@@ -157,12 +158,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a76d543bee3f5b1bfb6e993ec07191eb2"></a><!-- doxytag: member="nag&#45;nlp&#45;sparse.cc::solver_t" ref="a76d543bee3f5b1bfb6e993ec07191eb2" args="" -->
+<a class="anchor" id="a28b772d01b375b2cebe4aae7d950de23"></a><!-- doxytag: member="nag&#45;nlp&#45;sparse.cc::solver_t" ref="a28b772d01b375b2cebe4aae7d950de23" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef roboptim::Solver&lt; ::roboptim::GenericDifferentiableFunction&lt; ::roboptim::EigenMatrixSparse&gt;, boost::mpl::vector&lt; ::roboptim::GenericNumericLinearFunction&lt; ::roboptim::EigenMatrixSparse&gt;, ::roboptim::GenericDifferentiableFunction&lt; ::roboptim::EigenMatrixSparse&gt; &gt; &gt; <a class="el" href="a00006.html#a2e8c7d1443631ad972c650ab1b7d3469">solver_t</a></td>
+          <td class="memname">typedef roboptim::Solver&lt; ::roboptim::GenericDifferentiableFunction&lt; ::roboptim::EigenMatrixSparse&gt;, boost::mpl::vector&lt; ::roboptim::GenericLinearFunction&lt; ::roboptim::EigenMatrixSparse&gt;, ::roboptim::GenericDifferentiableFunction&lt; ::roboptim::EigenMatrixSparse&gt; &gt; &gt; <a class="el" href="a00006.html#a2e8c7d1443631ad972c650ab1b7d3469">solver_t</a></td>
         </tr>
       </table>
 </div>
