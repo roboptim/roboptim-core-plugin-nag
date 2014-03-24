@@ -15,35 +15,16 @@
 
 # Include shared test suite.
 SET(PLUGIN_PATH "${CMAKE_BINARY_DIR}/src")
+INCLUDE(shared-tests/tests.cmake)
 
-#FIXME: no problem whose input size is 1 in the test suite for now.
-
-#SET(SOLVER_NAME "nag")
-#SET(SCHITTKOWSKI_PROBLEMS 1 2 3)
-#SET(FUNCTION_TYPE ::roboptim::EigenMatrixDense)
-#SET(COST_FUNCTION_TYPE ::roboptim::GenericFunction)
-#SET(CONSTRAINT_TYPE_1 False)
-#SET(CONSTRAINT_TYPE_2 False)
-#SET(PROGRAM_SUFFIX "")
-#INCLUDE(shared-tests/CMakeLists.txt)
-
-#SET(SOLVER_NAME "nag-differentiable")
-#SET(SCHITTKOWSKI_PROBLEMS 1 2 3 4)
-#SET(FUNCTION_TYPE ::roboptim::EigenMatrixDense)
-#SET(COST_FUNCTION_TYPE ::roboptim::GenericDifferentiableFunction)
-#SET(CONSTRAINT_TYPE_1 False)
-#SET(CONSTRAINT_TYPE_2 False)
-#SET(PROGRAM_SUFFIX "-differentiable")
-#INCLUDE(shared-tests/CMakeLists.txt)
-
-#SET(SOLVER_NAME "nag-simplex")
-#SET(SCHITTKOWSKI_PROBLEMS 1 2 3 4)
-#SET(FUNCTION_TYPE ::roboptim::EigenMatrixDense)
-#SET(COST_FUNCTION_TYPE ::roboptim::GenericDifferentiableFunction)
-#SET(CONSTRAINT_TYPE_1 False)
-#SET(CONSTRAINT_TYPE_2 False)
-#SET(PROGRAM_SUFFIX "-simplex")
-#INCLUDE(shared-tests/CMakeLists.txt)
+SET(SCHITTKOWSKI_PROBLEMS_FAIL
+  2 8
+  13 14 16
+  20 23 25 28
+  33
+  47
+  55 56
+  72)
 
 SET(SOLVER_NAME "nag-nlp")
 SET(FUNCTION_TYPE ::roboptim::EigenMatrixDense)
@@ -51,7 +32,11 @@ SET(PROGRAM_SUFFIX "-nlp")
 SET(COST_FUNCTION_TYPE ::roboptim::GenericDifferentiableFunction)
 SET(CONSTRAINT_TYPE_1 ::roboptim::GenericLinearFunction)
 SET(CONSTRAINT_TYPE_2 ::roboptim::GenericDifferentiableFunction)
-INCLUDE(shared-tests/CMakeLists.txt)
+BUILD_SCHITTKOWSKI_PROBLEMS()
+BUILD_ROBOPTIM_PROBLEMS()
+
+SET(SCHITTKOWSKI_PROBLEMS_FAIL ${SCHITTKOWSKI_PROBLEMS_FAIL}
+  24 44)
 
 SET(SOLVER_NAME "nag-nlp-sparse")
 SET(FUNCTION_TYPE ::roboptim::EigenMatrixSparse)
@@ -59,4 +44,5 @@ SET(PROGRAM_SUFFIX "-nlp-sparse")
 SET(COST_FUNCTION_TYPE ::roboptim::GenericDifferentiableFunction)
 SET(CONSTRAINT_TYPE_1 ::roboptim::GenericLinearFunction)
 SET(CONSTRAINT_TYPE_2 ::roboptim::GenericDifferentiableFunction)
-INCLUDE(shared-tests/CMakeLists.txt)
+BUILD_SCHITTKOWSKI_PROBLEMS()
+BUILD_ROBOPTIM_PROBLEMS()
