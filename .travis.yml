@@ -9,6 +9,7 @@ env:
   - DEBSIGN_KEYID=5AE5CD75
   - PPA_URI="roboptim/ppa"
   - NSIQCPPSTYLE_FILEFILTERPATH=cmake/filefilter.txt
+  - LCOV_IGNORE_RULES="*tests*"
   - GH_USERNAME=thomas-moulard
   - GH_REPO=roboptim/roboptim-core-plugin-nag
   - ALLOW_TESTSUITE_FAILURE=true
