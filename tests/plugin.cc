@@ -33,14 +33,14 @@ struct Square : public DifferentiableFunction
   }
 
   void
-  impl_compute (result_t& result, const argument_t& x) const throw ()
+  impl_compute (result_ref result, const_argument_ref x) const throw ()
   {
     result.setZero ();
     result (0) = x[0] * x[0];
   }
 
   void
-  impl_gradient (gradient_t& grad, const argument_t&, size_type) const throw ()
+  impl_gradient (gradient_ref grad, const_argument_ref, size_type) const throw ()
   {
     grad[0] = 2;
   }
