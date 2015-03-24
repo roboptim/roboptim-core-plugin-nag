@@ -20,7 +20,7 @@ MACRO(NAG_PLUGIN NAME)
 
   SET_TARGET_PROPERTIES(roboptim-core-plugin-${NAME} PROPERTIES
     PREFIX ""
-    SOVERSION 1.1.0
+    SOVERSION 3.0.0
     INSTALL_RPATH "${NAG_DIR}/lib"
     )
 
