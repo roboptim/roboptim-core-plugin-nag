@@ -53,7 +53,15 @@ MESSAGE(STATUS "NAG_DIR: " ${NAG_DIR})
 INCLUDE_DIRECTORIES("${NAG_DIR}/include")
 LINK_DIRECTORIES("${NAG_DIR}/lib")
 
+OPTION(DISABLE_TESTS "Disable test programs" OFF)
+
 ADD_SUBDIRECTORY(src)
-ADD_SUBDIRECTORY(tests)
+
+IF(NOT DISABLE_TESTS)
+  ADD_SUBDIRECTORY(tests)
+ELSE()
+  MESSAGE(WARNING
+    "Tests should only be disabled for speficic cases. Do it at your own risk.")
+ENDIF()
 
 SETUP_PROJECT_FINALIZE()
