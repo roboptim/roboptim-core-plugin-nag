@@ -98,7 +98,7 @@ namespace roboptim
       DEFINE_PARAMETER
 	("nag.outfile",
 	 "output file used by the NAG logging system",
-	 "/tmp/nag.out");
+	 std::string ("/tmp/nag.out"));
       DEFINE_PARAMETER
 	("nag.optim_tol",
 	 "the accuracy in x  to which the solution is required",
@@ -132,7 +132,7 @@ namespace roboptim
       memset (&options, 0, sizeof (Nag_E04_Opt));
       nag_opt_init (&options);
       options.list = static_cast<Nag_Boolean>
-	(boost::get<int> (this->parameters_["nag.list"].value));
+	(boost::get<bool> (this->parameters_["nag.list"].value));
       options.print_level = static_cast<Nag_PrintType>
 	(boost::get<int> (this->parameters_["nag.print_level"].value));
       boost::get<std::string>
