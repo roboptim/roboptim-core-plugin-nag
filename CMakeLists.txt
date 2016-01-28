@@ -42,9 +42,24 @@ SET(BOOST_COMPONENTS
   date_time filesystem system thread program_options unit_test_framework)
 SEARCH_FOR_BOOST()
 
-# Search for Ipopt.
-ADD_REQUIRED_DEPENDENCY("roboptim-core >= 3.0")
-MESSAGE(STATUS "ROBOPTIM_CORE_PLUGINDIR: " ${ROBOPTIM_CORE_PLUGINDIR})
+# Libtool dynamic loading
+# This project does not use Libtool directly but still uses ltdl for
+# plug-in loading.
+SET(LIB_LTDL LIB_LTDL-NOTFOUND)
+FIND_LIBRARY(LIB_LTDL libltdl${CMAKE_SHARED_LIBRARY_SUFFIX})
+IF (NOT LIB_LTDL)
+  MESSAGE(FATAL_ERROR
+    "Failed to find Libtool ltdl library, check that Libtool ltdl is installed.")
+ENDIF()
+INCLUDE(CheckIncludeFileCXX)
+CHECK_INCLUDE_FILE_CXX(ltdl.h LTDL_H_FOUND)
+IF (NOT LTDL_H_FOUND)
+  MESSAGE(FATAL_ERROR
+    "Failed to find ltdl.h, check that Libtool ltdl is installed.")
+ENDIF()
+
+# Search for roboptim-core.
+ADD_REQUIRED_DEPENDENCY("roboptim-core >= 3.2")
 
 # Look for NAG.
 FIND_PATH(NAG_DIR include/nag.h HINTS /opt/NAG/cll6a23dhl/ /opt/NAG/cll6i24dcl/)
@@ -52,6 +67,13 @@ MESSAGE(STATUS "NAG_DIR: " ${NAG_DIR})
 
 INCLUDE_DIRECTORIES("${NAG_DIR}/include")
 LINK_DIRECTORIES("${NAG_DIR}/lib")
+LINK_DIRECTORIES("${NAG_DIR}/rtl/intel64")
+
+# Enable SIGFPE signal to detect arithmetic errors in tests
+OPTION(ENABLE_SIGFPE "Enable floating-point exceptions" ON)
+IF(ENABLE_SIGFPE)
+  ADD_DEFINITIONS(-DENABLE_SIGFPE)
+ENDIF()
 
 OPTION(DISABLE_TESTS "Disable test programs" OFF)
 
