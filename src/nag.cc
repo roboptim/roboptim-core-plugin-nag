@@ -17,6 +17,7 @@
 
 #include <cassert>
 #include <cstring>
+#include <stdexcept>
 
 #include <roboptim/core/function.hh>
 
@@ -54,18 +55,18 @@ namespace roboptim
     }
   } // end of namespace detail
 
-  NagSolver::NagSolver (const problem_t& pb) throw ()
+  NagSolver::NagSolver (const problem_t& pb)
     : parent_t (pb),
       e1_ (0.),
       e2_ (0.),
-      a_ (static_cast<std::size_t> (problem ().function ().inputSize ())),
-      b_ (static_cast<std::size_t> (problem ().function ().inputSize ())),
+      a_ (problem ().function ().inputSize ()),
+      b_ (problem ().function ().inputSize ()),
       x_ (1),
       f_ (problem ().function ().outputSize ())
   {
     if (pb.function ().inputSize () != 1)
       throw std::runtime_error
-	("this solver only support cost function which input size is 1");
+	("this solver only supports cost functions with an input size of 1");
 
     // Argument lower (a) and upper (b) bounds.
     assert (static_cast<Function::size_type>
@@ -87,11 +88,11 @@ namespace roboptim
     DEFINE_PARAMETER ("nag.e2", "absolute accuracy (0 means default)", 0.);
   }
 
-  NagSolver::~NagSolver () throw ()
+  NagSolver::~NagSolver ()
   {}
 
   void
-  NagSolver::solve () throw ()
+  NagSolver::solve ()
   {
     // e1 and e2
     e1_ = boost::get<double> (this->parameters_["nag.e1"].value);
@@ -107,12 +108,12 @@ namespace roboptim
 
     // Nag communication object.
     Nag_Comm comm;
-    memset (&comm, 0, sizeof (Nag_Comm));
+    std::memset (&comm, 0, sizeof (Nag_Comm));
     comm.p = this;
 
     // Nag error code.
     NagError fail;
-    memset (&fail, 0, sizeof (NagError));
+    std::memset (&fail, 0, sizeof (NagError));
     INIT_FAIL (fail);
 
     nag_opt_one_var_no_deriv
@@ -136,8 +137,7 @@ namespace roboptim
 extern "C"
 {
   typedef roboptim::NagSolver NagSolver;
-  typedef roboptim::Solver<roboptim::Function,
-			   boost::mpl::vector<> > solver_t;
+  typedef roboptim::Solver<roboptim::EigenMatrixDense> solver_t;
 
   ROBOPTIM_DLLEXPORT unsigned getSizeOfProblem ();
   ROBOPTIM_DLLEXPORT const char* getTypeIdOfConstraintsList ();

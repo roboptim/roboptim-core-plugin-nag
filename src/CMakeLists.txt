@@ -13,19 +13,20 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with roboptim-core.  If not, see <http://www.gnu.org/licenses/>.
 
+# Define the directory where plug-ins will be installed.
+GET_FILENAME_COMPONENT(RELPLUGINDIR ${ROBOPTIM_CORE_PLUGINDIR} NAME)
+SET(PLUGINDIR ${CMAKE_INSTALL_LIBDIR}/${RELPLUGINDIR})
+
 MACRO(NAG_PLUGIN NAME)
   ADD_LIBRARY(roboptim-core-plugin-${NAME} MODULE ${NAME}.cc ${HEADERS})
-  PKG_CONFIG_USE_DEPENDENCY(roboptim-core-plugin-${NAME} roboptim-core)
-  TARGET_LINK_LIBRARIES(roboptim-core-plugin-${NAME} nagc_nag)
-
   SET_TARGET_PROPERTIES(roboptim-core-plugin-${NAME} PROPERTIES
     PREFIX ""
-    SOVERSION 3.0.0
-    INSTALL_RPATH "${NAG_DIR}/lib"
-    )
-
-  INSTALL(TARGETS roboptim-core-plugin-${NAME}
-    DESTINATION ${ROBOPTIM_CORE_PLUGINDIR})
+    SOVERSION 3 VERSION 3.2.0
+    INSTALL_RPATH "${NAG_DIR}/lib")
+  INSTALL(TARGETS roboptim-core-plugin-${NAME} DESTINATION ${PLUGINDIR})
+  TARGET_LINK_LIBRARIES(roboptim-core-plugin-${NAME} nagc_nag)
+  PKG_CONFIG_USE_DEPENDENCY(roboptim-core-plugin-${NAME} roboptim-core)
+  PKG_CONFIG_USE_COMPILE_DEPENDENCY(roboptim-core-plugin-${NAME} roboptim-core)
 ENDMACRO()
 
 NAG_PLUGIN(nag)

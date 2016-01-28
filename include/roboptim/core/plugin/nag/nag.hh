@@ -19,8 +19,11 @@
 # define ROBOPTIM_CORE_PLUGING_NAG_NAG_HH
 # include <vector>
 
+# include <roboptim/core/portability.hh>
 # include <roboptim/core/solver.hh>
-# include <roboptim/core/differentiable-function.hh>
+# include <roboptim/core/function.hh>
+
+# include "roboptim/core/plugin/nag/nag-common.hh"
 
 namespace roboptim
 {
@@ -38,17 +41,17 @@ namespace roboptim
   /// discontinuities).
   ///
   /// \see http://www.nag.com/numeric/CL/nagdoc_cl23/html/E04/e04abc.html
-  class ROBOPTIM_DLLEXPORT NagSolver : public Solver<Function,
-						     boost::mpl::vector<> >
+  class ROBOPTIM_DLLEXPORT NagSolver : public NagSolverCommon<EigenMatrixDense>
   {
   public:
-    typedef Solver<Function, boost::mpl::vector<> > parent_t;
+    typedef NagSolverCommon<EigenMatrixDense> parent_t;
+    typedef Function::vector_t vector_t;
 
-    explicit NagSolver (const problem_t& pb) throw ();
-    virtual ~NagSolver () throw ();
+    explicit NagSolver (const problem_t& pb);
+    virtual ~NagSolver ();
 
     /// \brief Solve the problem.
-    void solve () throw ();
+    void solve ();
 
   private:
     /// \brief Relative accuracy.
@@ -56,13 +59,13 @@ namespace roboptim
     /// \brief Absolute accuracy.
     double e2_;
     /// \brief Lower bound.
-    std::vector<double> a_;
+    vector_t a_;
     /// \brief Upper bound.
-    std::vector<double> b_;
+    vector_t b_;
     /// \brief Current minimum estimation.
-    Function::vector_t x_;
+    vector_t x_;
     /// \brief Current cost.
-    Function::vector_t f_;
+    vector_t f_;
   };
 
   /// @}
