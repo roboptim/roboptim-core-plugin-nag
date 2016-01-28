@@ -21,7 +21,7 @@ INCLUDE(cmake/boost.cmake)
 
 SET(PROJECT_NAME roboptim-core-plugin-nag)
 SET(PROJECT_DESCRIPTION "RobOptim core NAG plug-in")
-SET(PROJECT_URL "http://github.com/laas/roboptim-core-plugin-nag")
+SET(PROJECT_URL "https://github.com/roboptim/roboptim-core-plugin-nag")
 
 SET(HEADERS
   )
