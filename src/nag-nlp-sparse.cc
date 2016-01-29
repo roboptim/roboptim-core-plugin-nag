@@ -19,6 +19,7 @@
 #include <cstring>
 
 #include <boost/format.hpp>
+#include <boost/scoped_ptr.hpp>
 
 #include <roboptim/core/differentiable-function.hh>
 #include <roboptim/core/numeric-linear-function.hh>
@@ -45,7 +46,7 @@ namespace roboptim
 #ifdef ROBOPTIM_CORE_PLUGIN_NAG_CHECK_GRADIENT
   template <typename T, typename U>
   static void checkJacobian (const GenericDifferentiableFunction<T>& function,
-                             int functionId, U& x) throw ()
+                             int functionId, U& x)
   {
     using boost::format;
     try
@@ -64,8 +65,7 @@ namespace roboptim
   }
 #else
   template <typename T, typename U>
-  static void checkJacobian (const GenericDifferentiableFunction<T>&, int,
-                             U&) throw ()
+  static void checkJacobian (const GenericDifferentiableFunction<T>&, int, U&)
   {
   }
 #endif //! ROBOPTIM_CORE_CFSQP_PLUGIN_CHECK_GRADIENT
@@ -78,6 +78,11 @@ namespace roboptim
                         ::Integer needg, ::Integer leng, double g[],
                         Nag_Comm* comm)
     {
+      typedef NagSolverNlpSparse::function_t function_t;
+      typedef NagSolverNlpSparse::differentiableFunction_t
+        differentiableFunction_t;
+      typedef differentiableFunction_t::jacobian_t jacobian_t;
+
       // This is the final call, we do not have anything to do.
       if (*status >= 2) return;
 
@@ -101,7 +106,7 @@ namespace roboptim
         // the cost function is evaluated first
         f_.head<1> () = solver->problem ().function () (x_);
 
-        // then the non linear constraints
+        // then the nonlinear constraints
         unsigned offset = 1;
         unsigned constraintId = 0;
 
@@ -109,14 +114,12 @@ namespace roboptim
              it != solver->problem ().constraints ().end ();
              ++it, ++constraintId)
         {
-          NagSolverNlpSparse::function_t::result_t res;
+          function_t::result_t res;
 
-          if (it->which () != NagSolverNlpSparse::nonlinearFunctionId) continue;
+          if ((*it)->asType<NagSolverNlpSparse::linearFunction_t> ()) continue;
 
-          boost::shared_ptr<NagSolverNlpSparse::nonlinearFunction_t> g =
-            boost::get<
-              boost::shared_ptr<NagSolverNlpSparse::nonlinearFunction_t> > (
-              *it);
+          const NagSolverNlpSparse::nonlinearFunction_t* g =
+            (*it)->castInto<NagSolverNlpSparse::nonlinearFunction_t> ();
           assert (!!g);
           f_.segment (offset, g->outputSize ()) = (*g) (x_);
           offset += static_cast<unsigned> (g->outputSize ());
@@ -129,10 +132,10 @@ namespace roboptim
              it != solver->problem ().constraints ().end ();
              ++it, ++constraintId)
         {
-          if (it->which () != NagSolverNlpSparse::linearFunctionId) continue;
-          boost::shared_ptr<NagSolverNlpSparse::linearFunction_t> g =
-            boost::get<
-              boost::shared_ptr<NagSolverNlpSparse::linearFunction_t> > (*it);
+          if (!(*it)->asType<NagSolverNlpSparse::linearFunction_t> ()) continue;
+
+          const NagSolverNlpSparse::linearFunction_t* g =
+            (*it)->castInto<NagSolverNlpSparse::linearFunction_t> ();
           assert (!!g);
           offset += static_cast<unsigned> (g->outputSize ());
         }
@@ -146,38 +149,39 @@ namespace roboptim
         Eigen::Map<DifferentiableFunction::vector_t> g_ (g, leng);
 
         unsigned offset = 0;
-        NagSolverNlpSparse::function_t::jacobian_t j;
+        jacobian_t j;
 
         // retrieve objective jacobian
-        j = solver->problem ().function ().jacobian (x_);
+        const differentiableFunction_t* obj;
+        if (!solver->problem ().function ().asType<differentiableFunction_t> ())
+          throw std::runtime_error (
+            "objective function should be differentiable");
 
-        checkJacobian (solver->problem ().function (), -1, x_);
+        obj =
+          solver->problem ().function ().castInto<differentiableFunction_t> ();
+        j = obj->jacobian (x_);
+
+        checkJacobian (*obj, -1, x_);
 
         for (int k = 0; k < j.outerSize (); ++k)
-          for (NagSolverNlpSparse::function_t::matrix_t::InnerIterator it (j,
-                                                                           k);
-               it; ++it)
+          for (function_t::matrix_t::InnerIterator it (j, k); it; ++it)
             g_[offset++] = it.value ();
 
-        NagSolverNlpSparse::function_t::size_type constraintId = 0;
+        function_t::size_type constraintId = 0;
         for (iter_t it = solver->problem ().constraints ().begin ();
              it != solver->problem ().constraints ().end ();
              ++it, ++constraintId)
         {
-          if (it->which () != NagSolverNlpSparse::nonlinearFunctionId) continue;
+          if (!(*it)->asType<NagSolverNlpSparse::linearFunction_t> ()) continue;
 
-          boost::shared_ptr<NagSolverNlpSparse::nonlinearFunction_t> g =
-            boost::get<
-              boost::shared_ptr<NagSolverNlpSparse::nonlinearFunction_t> > (
-              *it);
+          const NagSolverNlpSparse::nonlinearFunction_t* g =
+            (*it)->castInto<NagSolverNlpSparse::nonlinearFunction_t> ();
           assert (!!g);
           j = g->jacobian (x_);
           checkJacobian (*g, constraintId, x_);
 
           for (int k = 0; k < j.outerSize (); ++k)
-            for (NagSolverNlpSparse::function_t::matrix_t::InnerIterator it (j,
-                                                                             k);
-                 it; ++it)
+            for (function_t::matrix_t::InnerIterator it (j, k); it; ++it)
               g_[offset++] = it.value ();
         }
         assert (offset == leng);
@@ -189,7 +193,7 @@ namespace roboptim
     }
   } // end of namespace detail
 
-  NagSolverNlpSparse::NagSolverNlpSparse (const problem_t& pb) throw ()
+  NagSolverNlpSparse::NagSolverNlpSparse (const problem_t& pb)
     : parent_t (pb),
       nf_ (),
       n_ (pb.function ().inputSize ()),
@@ -236,7 +240,7 @@ namespace roboptim
     DEFINE_PARAMETER ("nag.verify-level", "verify level", 3);
   }
 
-  NagSolverNlpSparse::~NagSolverNlpSparse () throw ()
+  NagSolverNlpSparse::~NagSolverNlpSparse ()
   {
     // functions and variables names are allocated by strdup so we
     // need to call free, unfortunately Nag API requires a C-array of
@@ -259,17 +263,15 @@ namespace roboptim
     for (iter_t it = problem ().constraints ().begin ();
          it != problem ().constraints ().end (); ++it, ++constraintId)
     {
-      if (it->which () == linearFunctionId)
+      if ((*it)->asType<NagSolverNlpSparse::linearFunction_t> ())
       {
-        boost::shared_ptr<linearFunction_t> g =
-          boost::get<boost::shared_ptr<linearFunction_t> > (*it);
+        const linearFunction_t* g = (*it)->castInto<linearFunction_t> ();
         assert (!!g);
         nf_ += g->outputSize ();
       }
-      else if (it->which () == nonlinearFunctionId)
+      else if ((*it)->asType<NagSolverNlpSparse::nonlinearFunction_t> ())
       {
-        boost::shared_ptr<nonlinearFunction_t> g =
-          boost::get<boost::shared_ptr<nonlinearFunction_t> > (*it);
+        const nonlinearFunction_t* g = (*it)->castInto<nonlinearFunction_t> ();
         assert (!!g);
         nf_ += g->outputSize ();
       }
@@ -304,18 +306,17 @@ namespace roboptim
     flow_[0] = -function_t::infinity ();
     fupp_[0] = function_t::infinity ();
 
-    // - bounds for non-linear constraints
+    // - bounds for nonlinear constraints
     int offset = 1; // start at one because of cost function.
     for (unsigned constraintId = 0;
          constraintId < problem ().constraints ().size (); ++constraintId)
     {
-      if (problem ().constraints ()[constraintId].which () !=
-          nonlinearFunctionId)
-        continue;
+      const boost::shared_ptr<const function_t>& cstr =
+        problem ().constraints ()[constraintId];
 
-      boost::shared_ptr<nonlinearFunction_t> g =
-        boost::get<boost::shared_ptr<nonlinearFunction_t> > (
-          problem ().constraints ()[constraintId]);
+      if (cstr->asType<linearFunction_t> ()) continue;
+
+      const nonlinearFunction_t* g = cstr->castInto<nonlinearFunction_t> ();
       assert (!!g);
 
       for (Function::size_type i = 0; i < g->outputSize (); ++i)
@@ -331,24 +332,33 @@ namespace roboptim
     for (unsigned constraintId = 0;
          constraintId < problem ().constraints ().size (); ++constraintId)
     {
-      if (problem ().constraints ()[constraintId].which () != linearFunctionId)
-        continue;
+      const boost::shared_ptr<const function_t>& cstr =
+        problem ().constraints ()[constraintId];
 
-      boost::shared_ptr<linearFunction_t> g =
-        boost::get<boost::shared_ptr<linearFunction_t> > (
-          problem ().constraints ()[constraintId]);
+      if (!cstr->asType<linearFunction_t> ()) continue;
+
+      const numericLinearFunction_t* g;
+      boost::scoped_ptr<numericLinearFunction_t> g_;
+
+      if (cstr->asType<numericLinearFunction_t> ())
+        g = cstr->castInto<numericLinearFunction_t> ();
+      else
+      {
+        // Create a numeric linear function from a linear function
+        g_.reset (
+          new numericLinearFunction_t (*(cstr->castInto<linearFunction_t> ())));
+        g = g_.get ();
+      }
       assert (!!g);
-
-      numericLinearFunction_t g_ (*g);
 
       for (function_t::size_type i = 0; i < g->outputSize (); ++i)
       {
         std::size_t i_ = static_cast<std::size_t> (i);
         // warning: we shift bounds here.
         flow_[offset] =
-          problem ().boundsVector ()[constraintId][i_].first - g_.b ()[i];
+          problem ().boundsVector ()[constraintId][i_].first - g->b ()[i];
         fupp_[offset] =
-          problem ().boundsVector ()[constraintId][i_].second - g_.b ()[i];
+          problem ().boundsVector ()[constraintId][i_].second - g->b ()[i];
         ++offset;
       }
     }
@@ -416,19 +426,18 @@ namespace roboptim
 
     function_t::size_type offset = 0;
 
-    // compute the intial offset
+    // compute the initial offset
     offset += problem ().function ().outputSize ();
     for (unsigned constraintId = 0;
          constraintId < problem ().constraints ().size (); ++constraintId)
     {
-      // if linear, pass.
-      if (problem ().constraints ()[constraintId].which () !=
-          nonlinearFunctionId)
-        continue;
+      const boost::shared_ptr<const function_t>& cstr =
+        problem ().constraints ()[constraintId];
 
-      boost::shared_ptr<NagSolverNlpSparse::nonlinearFunction_t> g = boost::get<
-        boost::shared_ptr<NagSolverNlpSparse::nonlinearFunction_t> > (
-        problem ().constraints ()[constraintId]);
+      // if linear, pass.
+      if (cstr->asType<linearFunction_t> ()) continue;
+
+      const nonlinearFunction_t* g = cstr->castInto<nonlinearFunction_t> ();
       assert (!!g);
       offset += static_cast<unsigned> (g->outputSize ());
     }
@@ -438,25 +447,34 @@ namespace roboptim
     for (unsigned constraintId = 0;
          constraintId < problem ().constraints ().size (); ++constraintId)
     {
-      // if non-linear, pass.
-      if (problem ().constraints ()[constraintId].which () != linearFunctionId)
-        continue;
+      const boost::shared_ptr<const function_t>& cstr =
+        problem ().constraints ()[constraintId];
 
-      boost::shared_ptr<linearFunction_t> g =
-        boost::get<boost::shared_ptr<linearFunction_t> > (
-          problem ().constraints ()[constraintId]);
-      assert (!!g);
-      numericLinearFunction_t g_ (*g);
+      // if nonlinear, pass.
+      if (!cstr->asType<linearFunction_t> ()) continue;
+
+      const numericLinearFunction_t* g;
+      boost::scoped_ptr<numericLinearFunction_t> g_;
+
+      if (cstr->asType<numericLinearFunction_t> ())
+        g = cstr->castInto<numericLinearFunction_t> ();
+      else
+      {
+        // Create a numeric linear function from a linear function
+        g_.reset (
+          new numericLinearFunction_t (*(cstr->castInto<linearFunction_t> ())));
+        g = g_.get ();
+      }
 
       // copy the non-null elements of the jacobian
-      for (int k = 0; k < g_.A ().outerSize (); ++k)
-        for (function_t::matrix_t::InnerIterator it (g_.A (), k); it; ++it)
+      for (int k = 0; k < g->A ().outerSize (); ++k)
+        for (function_t::matrix_t::InnerIterator it (g->A (), k); it; ++it)
         {
           iafun_.push_back (offset + it.row () + 1);
           javar_.push_back (it.col () + 1);
           a_.push_back (it.value ());
         }
-      offset += static_cast<int> (g_.A ().rows ());
+      offset += static_cast<int> (g->A ().rows ());
     }
 
     lena_ = static_cast<int> (iafun_.size ());
@@ -481,12 +499,18 @@ namespace roboptim
     neg_ = 0;
 
     // evaluate objective jacobian.
-    function_t::vector_t x = lookForX ();
-    function_t::jacobian_t jac = problem ().function ().jacobian (x);
+    const differentiableFunction_t* obj;
+    if (!problem ().function ().asType<differentiableFunction_t> ())
+      throw std::runtime_error ("objective function should be differentiable");
+
+    obj = problem ().function ().castInto<differentiableFunction_t> ();
+
+    vector_t x = lookForX ();
+    jacobian_t jac = obj->jacobian (x);
     neg_ += jac.nonZeros ();
 
     for (int k = 0; k < jac.outerSize (); ++k)
-      for (function_t::jacobian_t::InnerIterator it (jac, k); it; ++it)
+      for (jacobian_t::InnerIterator it (jac, k); it; ++it)
       {
         igfun_.push_back (it.row () + 1);
         jgvar_.push_back (it.col () + 1);
@@ -496,22 +520,21 @@ namespace roboptim
     for (unsigned constraintId = 0;
          constraintId < problem ().constraints ().size (); ++constraintId)
     {
-      // if linear, pass.
-      if (problem ().constraints ()[constraintId].which () !=
-          nonlinearFunctionId)
-        continue;
+      const boost::shared_ptr<const function_t>& cstr =
+        problem ().constraints ()[constraintId];
 
-      boost::shared_ptr<nonlinearFunction_t> g =
-        boost::get<boost::shared_ptr<nonlinearFunction_t> > (
-          problem ().constraints ()[constraintId]);
+      // if linear, pass.
+      if (cstr->asType<linearFunction_t> ()) continue;
+
+      const nonlinearFunction_t* g = cstr->castInto<nonlinearFunction_t> ();
       assert (!!g);
 
-      function_t::vector_t x = lookForX (constraintId);
-      function_t::jacobian_t jac = g->jacobian (x);
+      vector_t x = lookForX (constraintId);
+      jacobian_t jac = g->jacobian (x);
       neg_ += jac.nonZeros ();
 
       for (int k = 0; k < jac.outerSize (); ++k)
-        for (function_t::jacobian_t::InnerIterator it (jac, k); it; ++it)
+        for (jacobian_t::InnerIterator it (jac, k); it; ++it)
         {
           igfun_.push_back (offset + it.row () + 1);
           jgvar_.push_back (it.col () + 1);
@@ -538,34 +561,33 @@ namespace roboptim
     fnames_.push_back (strdup (
       (fmt % "cost" % problem ().function ().getName () % 0).str ().c_str ()));
 
-    // then non-linear constraints
+    // then nonlinear constraints
     for (std::size_t constraintId = 0;
          constraintId < problem ().constraints ().size (); ++constraintId)
     {
-      if (problem ().constraints ()[constraintId].which () !=
-          nonlinearFunctionId)
-        continue;
+      const boost::shared_ptr<const function_t>& cstr =
+        problem ().constraints ()[constraintId];
 
-      boost::shared_ptr<nonlinearFunction_t> g =
-        boost::get<boost::shared_ptr<nonlinearFunction_t> > (
-          problem ().constraints ()[constraintId]);
+      if (cstr->asType<linearFunction_t> ()) continue;
+
+      const nonlinearFunction_t* g = cstr->castInto<nonlinearFunction_t> ();
       assert (!!g);
 
       for (Function::size_type i = 0; i < g->outputSize (); ++i)
         fnames_.push_back (
-          strdup ((fmt % "non-linear" % g->getName () % i).str ().c_str ()));
+          strdup ((fmt % "nonlinear" % g->getName () % i).str ().c_str ()));
     }
 
     // and to finish the linear ones.
     for (std::size_t constraintId = 0;
          constraintId < problem ().constraints ().size (); ++constraintId)
     {
-      if (problem ().constraints ()[constraintId].which () != linearFunctionId)
-        continue;
+      const boost::shared_ptr<const function_t>& cstr =
+        problem ().constraints ()[constraintId];
 
-      boost::shared_ptr<linearFunction_t> g =
-        boost::get<boost::shared_ptr<linearFunction_t> > (
-          problem ().constraints ()[constraintId]);
+      if (!cstr->asType<linearFunction_t> ()) continue;
+
+      const linearFunction_t* g = cstr->castInto<linearFunction_t> ();
       assert (!!g);
 
       for (Function::size_type i = 0; i < g->outputSize (); ++i)
@@ -577,7 +599,7 @@ namespace roboptim
   }
 
   const char* cxxtoCString (std::string s) { return s.c_str (); }
-  void NagSolverNlpSparse::solve () throw ()
+  void NagSolverNlpSparse::solve ()
   {
     compute_nf ();
 
@@ -711,12 +733,7 @@ namespace roboptim
 
 extern "C" {
 typedef roboptim::NagSolverNlpSparse NagSolverNlpSparse;
-typedef roboptim::Solver<
-  ::roboptim::GenericDifferentiableFunction< ::roboptim::EigenMatrixSparse>,
-  boost::mpl::vector<
-    ::roboptim::GenericLinearFunction< ::roboptim::EigenMatrixSparse>,
-    ::roboptim::GenericDifferentiableFunction<
-      ::roboptim::EigenMatrixSparse> > > solver_t;
+typedef roboptim::Solver< ::roboptim::EigenMatrixSparse> solver_t;
 
 ROBOPTIM_DLLEXPORT unsigned getSizeOfProblem ();
 ROBOPTIM_DLLEXPORT const char* getTypeIdOfConstraintsList ();

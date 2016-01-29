@@ -67,11 +67,10 @@ namespace roboptim
       for (iter_t it = solver->problem ().constraints ().begin ();
 	   it != solver->problem ().constraints ().end (); ++it)
 	{
-	  boost::shared_ptr<DifferentiableFunction> g;
-	  if (it->which () == 0)
-	    g = boost::get<boost::shared_ptr<LinearFunction> > (*it);
-	  else
-	    g = boost::get<boost::shared_ptr<DifferentiableFunction> > (*it);
+	  DifferentiableFunction const* g;
+          if ((*it)->asType<DifferentiableFunction>())
+            g = (*it)->castInto<DifferentiableFunction>();
+          else throw std::runtime_error ("invalid constraint provided");
 	  assert (!!g);
 
 	  // evaluate constraint.
@@ -106,26 +105,33 @@ namespace roboptim
       assert (!!solver);
 
       // Maps C-arrays to Eigen structures.
-      Eigen::Map<const DifferentiableFunction::argument_t> x_ (x, n);
-      Eigen::Map<DifferentiableFunction::result_t> objf_ (objf, 1);
+      Eigen::Map<const Function::argument_t> x_ (x, n);
+      Eigen::Map<Function::result_t> objf_ (objf, 1);
       Eigen::Map<DifferentiableFunction::gradient_t> grad_ (grad, n);
+
+      DifferentiableFunction const* f;
+      if (solver->problem ().function ().asType<DifferentiableFunction>())
+        f = solver->problem ().function ().castInto<DifferentiableFunction>();
+      else throw std::runtime_error ("invalid cost function provided");
 
       assert (!!mode);
       assert (*mode >= 0 && *mode <= 2 && "should never happen");
       if (*mode == 0 || *mode == 2) // evaluate objective
-	objf_ = solver->problem ().function () (x_);
+	objf_ = (*f) (x_);
 
       if (*mode == 1 || *mode == 2) // evaluate objective gradient
-	grad_ = solver->problem ().function ().gradient (x_, 0);
+	grad_ = f->gradient (x_, 0);
 
       if (!solver->callback ())
 	return;
       solver->solverState ().x () = x_;
+      // TODO: support multi-objective
+      solver->solverState ().cost () = objf_[0];
       solver->callback () (solver->problem (), solver->solverState ());
     }
   } // end of namespace detail
 
-  NagSolverNlp::NagSolverNlp (const problem_t& pb) throw ()
+  NagSolverNlp::NagSolverNlp (const problem_t& pb)
     : parent_t (pb),
       n_ (static_cast<int> (problem ().function ().inputSize ())),
       nclin_ (0),
@@ -149,28 +155,27 @@ namespace roboptim
     objf_[0] = 0.;
   }
 
-  NagSolverNlp::~NagSolverNlp () throw ()
+  NagSolverNlp::~NagSolverNlp ()
   {}
 
   void
-  NagSolverNlp::solve () throw ()
+  NagSolverNlp::solve ()
   {
     // Count constraints and compute their size.
     typedef problem_t::constraints_t::const_iterator iter_t;
     for (iter_t it = problem ().constraints ().begin ();
 	 it != problem ().constraints ().end (); ++it)
       {
-	if (it->which () == 0)
+	if ((*it)->asType<LinearFunction> ())
 	  {
-	    boost::shared_ptr<LinearFunction> g =
-	      boost::get<boost::shared_ptr<LinearFunction> > (*it);
+	    LinearFunction* const g = (*it)->castInto<LinearFunction> ();
 	    assert (!!g);
 	    nclin_ += g->outputSize ();
 	  }
-	else if (it->which () == 1)
+	else if ((*it)->asType<DifferentiableFunction> ())
 	  {
-	    boost::shared_ptr<DifferentiableFunction> g =
-	      boost::get<boost::shared_ptr<DifferentiableFunction> > (*it);
+	    DifferentiableFunction* const g
+              = (*it)->castInto<DifferentiableFunction> ();
 	    assert (!!g);
 	    ncnln_ += g->outputSize ();
 	  }
@@ -194,14 +199,12 @@ namespace roboptim
     for (iter_t it = problem ().constraints ().begin ();
 	 it != problem ().constraints ().begin (); ++it)
       {
-	if (it->which () != 0)
+	if (!(*it)->asType<NumericLinearFunction> ())
 	  continue;
-	boost::shared_ptr<LinearFunction> g =
-	  boost::get<boost::shared_ptr<LinearFunction> > (*it);
-	assert (!!g);
-	NumericLinearFunction g_ (*g);
-	const NumericLinearFunction::matrix_t& A = g_.A ();
-	a_.block (idx, 0, g->outputSize (), g->inputSize ()) = A;
+        NumericLinearFunction* const g =
+            (*it)->castInto<NumericLinearFunction> ();
+        assert (!!g);
+	a_.block (idx, 0, g->outputSize (), g->inputSize ()) = g->A();
 	idx += g->outputSize ();
       }
 
@@ -220,17 +223,17 @@ namespace roboptim
 	 constraintId < problem ().constraints ().size ();
 	 ++constraintId)
       {
-	if (problem ().constraints ()[constraintId].which () != 0)
+	if (!problem ().constraints ()[constraintId]->asType<NumericLinearFunction> ())
 	  continue;
-	boost::shared_ptr<LinearFunction> g =
-	  boost::get<boost::shared_ptr<LinearFunction> >
-	  (problem ().constraints ()[constraintId]);
-	assert (!!g);
+        NumericLinearFunction* const g =
+            problem ()
+                .constraints ()[constraintId]
+                ->castInto<NumericLinearFunction> ();
+        assert (!!g);
 
-	NumericLinearFunction g_ (*g);
 	for (unsigned i = 0; i < g->outputSize (); ++i)
 	  {
-	    const LinearFunction::vector_t& b = g_.b ();
+	    const NumericLinearFunction::vector_t& b = g->b ();
 	    // warning: we shift bounds here.
 	    bl_[idx + i] =
 	      problem ().boundsVector ()[constraintId][i].first + b[i];
@@ -240,16 +243,21 @@ namespace roboptim
 	idx += g->outputSize ();
       }
 
-    // - non-linear constraints
+    // - nonlinear constraints
     for (unsigned constraintId = 0;
 	 constraintId < problem ().constraints ().size ();
 	 ++constraintId)
       {
-	if (problem ().constraints ()[constraintId].which () != 1)
-	  continue;
-	boost::shared_ptr<DifferentiableFunction> g =
-	  boost::get<boost::shared_ptr<DifferentiableFunction> >
-	  (problem ().constraints ()[constraintId]);
+        if (problem ()
+                .constraints ()[constraintId]
+                ->asType<NumericLinearFunction> () ||
+            !problem ()
+                 .constraints ()[constraintId]
+                 ->asType<DifferentiableFunction> ())
+          continue;
+        DifferentiableFunction* const g =
+	  problem ().constraints ()[constraintId]
+                ->castInto<DifferentiableFunction> ();
 	assert (!!g);
 
 	for (unsigned i = 0; i < g->outputSize (); ++i)
@@ -266,9 +274,9 @@ namespace roboptim
 
     // Initialization
     Nag_E04State state;
-    memset (&state, 0, sizeof (Nag_E04State));
+    std::memset (&state, 0, sizeof (Nag_E04State));
     NagError fail;
-    memset (&fail, 0, sizeof (NagError));
+    std::memset (&fail, 0, sizeof (NagError));
     INIT_FAIL (fail);
 
     // Initialize problem.
@@ -284,7 +292,7 @@ namespace roboptim
 
     // Nag communication object.
     Nag_Comm comm;
-    memset (&comm, 0, sizeof (Nag_Comm));
+    std::memset (&comm, 0, sizeof (Nag_Comm));
     comm.p = this;
 
     ::Integer majits = 0.;
@@ -292,7 +300,7 @@ namespace roboptim
 
     std::size_t istateSize =
       static_cast<std::size_t> ((n_ + nclin_ + ncnln_)) * sizeof (double);
-    memset (istate, 0, istateSize);
+    std::memset (istate, 0, istateSize);
 
     // Solve.
     nag_opt_nlp_solve
@@ -328,11 +336,7 @@ namespace roboptim
 extern "C"
 {
   typedef roboptim::NagSolverNlp NagSolverNlp;
-  typedef roboptim::Solver<
-    roboptim::DifferentiableFunction,
-    boost::mpl::vector<roboptim::LinearFunction,
-		       roboptim::DifferentiableFunction> >
-  solver_t;
+  typedef roboptim::Solver<roboptim::EigenMatrixDense> solver_t;
 
   ROBOPTIM_DLLEXPORT unsigned getSizeOfProblem ();
   ROBOPTIM_DLLEXPORT const char* getTypeIdOfConstraintsList ();

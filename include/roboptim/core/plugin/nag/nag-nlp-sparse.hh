@@ -24,12 +24,14 @@
 # include <roboptim/core/differentiable-function.hh>
 # include <roboptim/core/twice-differentiable-function.hh>
 
+# include "roboptim/core/plugin/nag/nag-common.hh"
+
 namespace roboptim
 {
   /// \addtogroup roboptim_solver
   /// @{
 
-  /// \brief Non-linear solver.
+  /// \brief Nonlinear sparse solver.
   ///
   /// Minimize an arbitrary smooth function subject to constraints
   /// (which may include simple bounds on the variables, linear
@@ -41,41 +43,38 @@ namespace roboptim
   ///
   /// \see http://www.nag.com/numeric/CL/nagdoc_cl23/html/E04/e04wdc.html
   class ROBOPTIM_DLLEXPORT NagSolverNlpSparse
-    : public Solver<
-        GenericDifferentiableFunction<EigenMatrixSparse>,
-        boost::mpl::vector<GenericLinearFunction<EigenMatrixSparse>,
-                           GenericDifferentiableFunction<EigenMatrixSparse> > >
+    : public NagSolverCommon<EigenMatrixSparse>
   {
   public:
-    typedef Solver<
-      GenericDifferentiableFunction<EigenMatrixSparse>,
-      boost::mpl::vector<GenericLinearFunction<EigenMatrixSparse>,
-                         GenericDifferentiableFunction<EigenMatrixSparse> > >
-      parent_t;
+    typedef NagSolverCommon<EigenMatrixSparse> parent_t;
     typedef GenericLinearFunction<EigenMatrixSparse> linearFunction_t;
     typedef GenericNumericLinearFunction<EigenMatrixSparse>
       numericLinearFunction_t;
 
     typedef GenericDifferentiableFunction<EigenMatrixSparse>
-      nonlinearFunction_t;
+      differentiableFunction_t;
+    typedef differentiableFunction_t nonlinearFunction_t;
     typedef problem_t::function_t function_t;
+    typedef problem_t::vector_t vector_t;
+    typedef problem_t::jacobian_t jacobian_t;
 
     static const int linearFunctionId = 0;
     static const int nonlinearFunctionId = 1;
 
-    explicit NagSolverNlpSparse (const problem_t& pb) throw ();
-    virtual ~NagSolverNlpSparse () throw ();
+    explicit NagSolverNlpSparse (const problem_t& pb);
+    virtual ~NagSolverNlpSparse ();
 
     /// \brief Solve the problem.
-    void solve () throw ();
+    void solve ();
 
-    void setIterationCallback (callback_t callback) throw (std::runtime_error)
+    void setIterationCallback (callback_t callback)
     {
       callback_ = callback;
     }
 
-    const callback_t& callback () const throw () { return callback_; }
-    solverState_t& solverState () throw () { return solverState_; }
+    const callback_t& callback () const { return callback_; }
+    solverState_t& solverState () { return solverState_; }
+
   private:
     void compute_nf ();
     void fill_xlow_xupp ();
