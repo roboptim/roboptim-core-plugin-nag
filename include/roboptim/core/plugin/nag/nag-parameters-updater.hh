@@ -24,6 +24,7 @@
 # include <algorithm>
 
 # include <boost/variant/static_visitor.hpp>
+# include <boost/static_assert.hpp>
 
 # include <nag.h>
 # include <nage04.h>
@@ -71,6 +72,19 @@ namespace roboptim
       std::string option = key_;
       if (!val.empty ()) option += " = " + val;
       nag_opt_sparse_nlp_option_set_string (option.c_str (), state_, fail_);
+    }
+
+    void operator() (const char* val) const
+    {
+      if (is_ignored (key_)) return;
+
+      (*this) (std::string (val));
+    }
+
+    template <typename T>
+    void operator() (const T&) const
+    {
+      ROBOPTIM_ASSERT_MSG (false, "NOT IMPLEMENTED");
     }
 
   private:

@@ -52,13 +52,9 @@ namespace roboptim
   } while (0)
 
   template <typename T>
-  void NagSolverCommon<T>::initializeParameters (Nag_E04State* state,
-                                                 NagError* fail)
+  void NagSolverCommon<T>::initializeParameters ()
   {
     this->parameters_.clear ();
-
-    nag_opt_nlp_init (state, fail);
-    nag_opt_sparse_nlp_init (state, fail);
 
     // Shared parameters.
     DEFINE_PARAMETER ("max-iterations", "number of iterations", 3000);
@@ -98,21 +94,25 @@ namespace roboptim
         this->parameters_["max-iterations"].value);
 
     // If the user specified a log filename
-    typename solver_t::parameters_t::const_iterator_t it =
+    typename solver_t::parameters_t::const_iterator it =
         this->parameters_.find ("nag.output_file");
-    if (it != this->parameters_.end () && !it.first.empty ())
+    if (it != this->parameters_.end ())
     {
-      if (fdLog_ > 2)
+      std::string filename = boost::get<std::string> (it->second.value);
+      if (!filename.empty ())
       {
-        nag_close_file (fdLog_, fail);
-        fdLog_ = -1;
+        if (fdLog_ > 2)
+        {
+          nag_close_file (fdLog_, fail);
+          fdLog_ = -1;
+        }
+
+        // 1: open file for writing
+        nag_open_file (filename.c_str (), 1, &fdLog_, fail);
+
+        NagParametersUpdater updater ("Print file", state, fail);
+        updater (int(fdLog_));
       }
-
-      // 1: open file for writing
-      nag_open_file (it.first.c_str (), 1, &fdLog_, fail);
-
-      NagParametersUpdater updater ("print-file", state, fail);
-      updater (int(fdLog_));
     }
   }
 } // end of namespace roboptim

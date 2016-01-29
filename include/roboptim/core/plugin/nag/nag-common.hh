@@ -75,10 +75,12 @@ namespace roboptim
   protected:
     /// \brief Initialize parameters.
     /// Add solver parameters. Called during construction.
-    void initializeParameters (Nag_E04State* state, NagError* fail);
+    void initializeParameters ();
 
     /// \brief Read parameters and update associated options in NAG.
     /// Called before solving problem.
+    /// \param state internal information required for NAG functions.
+    /// \param fail NAG error argument
     void updateParameters (Nag_E04State* state, NagError* fail);
 
   private:
