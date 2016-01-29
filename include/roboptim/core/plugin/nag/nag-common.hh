@@ -20,9 +20,6 @@
 
 # include <fstream>
 
-# include <boost/mpl/vector.hpp>
-# include <boost/optional.hpp>
-
 # include <nag.h>
 # include <nage04.h>
 
@@ -35,6 +32,12 @@
 
 namespace roboptim
 {
+  /// \brief Error handler for NAG API.
+  /// \param s error message.
+  /// \param code error code.
+  /// \param name error name.
+  void errorHandler (const char* s, int code, const char* name);
+
   /// \addtogroup roboptim_problem
   /// @{
 

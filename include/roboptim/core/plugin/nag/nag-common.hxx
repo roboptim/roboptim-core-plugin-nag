@@ -19,9 +19,10 @@
 # define ROBOPTIM_CORE_NAG_COMMON_HXX
 
 # include <string>
+# include <stdexcept>
 
-# include <boost/mpl/vector.hpp>
 # include <boost/variant/apply_visitor.hpp>
+# include <boost/format.hpp>
 
 # include <nagx04.h>
 
@@ -33,6 +34,13 @@
 
 namespace roboptim
 {
+  inline void errorHandler (const char* s, int code, const char* name)
+  {
+    std::string msg =
+      (boost::format ("[%s - error %i] %s") % name % code % s).str ();
+    throw std::runtime_error (msg);
+  }
+
   template <typename T>
   NagSolverCommon<T>::NagSolverCommon (const problem_t& pb)
     : solver_t (pb), fdLog_ (-1)

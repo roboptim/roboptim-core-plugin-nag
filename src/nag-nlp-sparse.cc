@@ -21,6 +21,7 @@
 #include <boost/format.hpp>
 #include <boost/scoped_ptr.hpp>
 
+#include <roboptim/core/debug.hh>
 #include <roboptim/core/differentiable-function.hh>
 #include <roboptim/core/numeric-linear-function.hh>
 
@@ -230,14 +231,7 @@ namespace roboptim
       callback_ (),
       solverState_ (pb)
   {
-    // Shared parameters.
-    DEFINE_PARAMETER ("max-iterations", "number of iterations", 3000);
-
-    // NAG specific.
-
-    //  Output
-    DEFINE_PARAMETER ("nag.print-file", "log file", 1);
-    DEFINE_PARAMETER ("nag.verify-level", "verify level", 3);
+    initializeParameters ();
   }
 
   NagSolverNlpSparse::~NagSolverNlpSparse ()
@@ -643,28 +637,22 @@ namespace roboptim
 
     // Error code initialization.
     NagError fail;
-    memset (&fail, 0, sizeof (NagError));
+    std::memset (&fail, 0, sizeof (NagError));
     INIT_FAIL (fail);
+    fail.handler = &errorHandler;
+
+    // To print NAG errors to stdout
+    // fail.print = Nag_TRUE;
 
     Nag_E04State state;
-    memset (&state, 0, sizeof (Nag_E04State));
+    std::memset (&state, 0, sizeof (Nag_E04State));
 
     nag_opt_sparse_nlp_init (&state, &fail);
-
-    // Set parameters.
-    nag_opt_sparse_nlp_option_set_integer (
-      "Major Iterations Limit", this->getParameter<int> ("max-iterations"),
-      &state, &fail);
-
-    nag_opt_sparse_nlp_option_set_integer (
-      "Print file", this->getParameter<int> ("nag.print-file"), &state, &fail);
-    nag_opt_sparse_nlp_option_set_integer (
-      "Verify Level", this->getParameter<int> ("nag.verify-level"), &state,
-      &fail);
+    updateParameters (&state, &fail);
 
     // Nag communication object.
     Nag_Comm comm;
-    memset (&comm, 0, sizeof (Nag_Comm));
+    std::memset (&comm, 0, sizeof (Nag_Comm));
     comm.p = this;
 
     // Solve.
@@ -673,35 +661,38 @@ namespace roboptim
         ((boost::format ("RobOptim variable %1%") % i).str ().c_str ())));
 
     // Double check that sizes are valid.
-    assert (nf_ > 0);
-    assert (n_ > 0);
-    assert (nxname_ == 1 || nxname_ == n_);
-    assert (nfname_ == 1 || nfname_ == nf_);
-    assert (objadd_ == 0.);
-    assert (1 <= objrow_ && objrow_ <= nf_);
-    assert (iafun_.size () == static_cast<std::size_t> (lena_));
-    assert (javar_.size () == static_cast<std::size_t> (lena_));
-    assert (a_.size () == static_cast<std::size_t> (lena_));
-    assert (lena_ >= 1);
+    ROBOPTIM_ASSERT (nf_ > 0);
+    ROBOPTIM_ASSERT (n_ > 0);
+    ROBOPTIM_ASSERT (nxname_ == 1 || nxname_ == n_);
+    ROBOPTIM_ASSERT (nfname_ == 1 || nfname_ == nf_);
+    ROBOPTIM_ASSERT (objadd_ == 0.);
+    ROBOPTIM_ASSERT (1 <= objrow_ && objrow_ <= nf_);
+    ROBOPTIM_ASSERT (iafun_.size () == static_cast<std::size_t> (lena_));
+    ROBOPTIM_ASSERT (javar_.size () == static_cast<std::size_t> (lena_));
+    ROBOPTIM_ASSERT (a_.size () == static_cast<std::size_t> (lena_));
+    ROBOPTIM_ASSERT (lena_ >= 1);
 
-    assert (igfun_.size () >= static_cast<std::size_t> (leng_));
-    assert (jgvar_.size () >= static_cast<std::size_t> (leng_));
-    assert (leng_ >= 1);
-    assert (0 <= neg_ && neg_ <= leng_);
+    ROBOPTIM_ASSERT (igfun_.size () >= static_cast<std::size_t> (leng_));
+    ROBOPTIM_ASSERT (jgvar_.size () >= static_cast<std::size_t> (leng_));
+    ROBOPTIM_ASSERT (leng_ >= 1);
+    ROBOPTIM_ASSERT (0 <= neg_ && neg_ <= leng_);
 
-    assert (xlow_.size () == static_cast<Eigen::MatrixXd::Index> (n_));
-    assert (xupp_.size () == static_cast<Eigen::MatrixXd::Index> (n_));
+    ROBOPTIM_ASSERT (xlow_.size () == static_cast<Eigen::MatrixXd::Index> (n_));
+    ROBOPTIM_ASSERT (xupp_.size () == static_cast<Eigen::MatrixXd::Index> (n_));
 
-    assert (flow_.size () == static_cast<Eigen::MatrixXd::Index> (nf_));
-    assert (fupp_.size () == static_cast<Eigen::MatrixXd::Index> (nf_));
+    ROBOPTIM_ASSERT (flow_.size () ==
+                     static_cast<Eigen::MatrixXd::Index> (nf_));
+    ROBOPTIM_ASSERT (fupp_.size () ==
+                     static_cast<Eigen::MatrixXd::Index> (nf_));
 
-    assert (x_.size () == static_cast<Eigen::MatrixXd::Index> (n_));
-    assert (xstate_.size () == static_cast<std::size_t> (n_));
-    assert (xmul_.size () == static_cast<Eigen::MatrixXd::Index> (n_));
+    ROBOPTIM_ASSERT (x_.size () == static_cast<Eigen::MatrixXd::Index> (n_));
+    ROBOPTIM_ASSERT (xstate_.size () == static_cast<std::size_t> (n_));
+    ROBOPTIM_ASSERT (xmul_.size () == static_cast<Eigen::MatrixXd::Index> (n_));
 
-    assert (f_.size () == static_cast<Eigen::MatrixXd::Index> (nf_));
-    assert (fstate_.size () == static_cast<std::size_t> (nf_));
-    assert (fmul_.size () == static_cast<Eigen::MatrixXd::Index> (nf_));
+    ROBOPTIM_ASSERT (f_.size () == static_cast<Eigen::MatrixXd::Index> (nf_));
+    ROBOPTIM_ASSERT (fstate_.size () == static_cast<std::size_t> (nf_));
+    ROBOPTIM_ASSERT (fmul_.size () ==
+                     static_cast<Eigen::MatrixXd::Index> (nf_));
 
     nag_opt_sparse_nlp_solve (
       Nag_Cold, nf_, n_, nxname_, nfname_, objadd_, objrow_, "RobOptim problem",
