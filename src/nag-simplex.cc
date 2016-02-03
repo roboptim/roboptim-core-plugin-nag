@@ -59,15 +59,6 @@ namespace roboptim
         solver->solverState ().x () = x_;
         solver->callback () (solver->problem (), solver->solverState ());
       }
-
-      static void printFunction (
-        const Nag_Search_State* ROBOPTIM_DEBUG_ONLY (st),
-        Nag_Comm* ROBOPTIM_DEBUG_ONLY (comm))
-      {
-        assert (st);
-        assert (comm);
-        // FIXME: write this.
-      }
     } // end of namespace detail
 
     Simplex::Simplex (const problem_t& pb)
@@ -84,15 +75,11 @@ namespace roboptim
       DEFINE_PARAMETER ("max-iterations", "number of iterations", 3000);
 
       // Custom parameters
-      DEFINE_PARAMETER ("nag.list",
-                        "if true, problem will be displayed by the NAG solver",
-                        true);
-      DEFINE_PARAMETER ("nag.print_level", "verbosity level", Nag_NoPrint);
-      DEFINE_PARAMETER ("nag.outfile",
-                        "output file used by the NAG logging system",
-                        std::string ("/tmp/nag.out"));
-      DEFINE_PARAMETER ("nag.optim_tol",
-                        "the accuracy in x  to which the solution is required",
+      DEFINE_PARAMETER ("nag.tolx",
+                        "the error tolerable in the spatial values",
+                        Function::epsilon ());
+      DEFINE_PARAMETER ("nag.tolf",
+                        "the error tolerable in the function values",
                         Function::epsilon ());
     }
 
@@ -107,31 +94,25 @@ namespace roboptim
 
       // Nag communication object.
       Nag_Comm comm;
-      memset (&comm, 0, sizeof (Nag_Comm));
+      std::memset (&comm, 0, sizeof (Nag_Comm));
       comm.p = this;
 
       // Nag error code.
       NagError fail;
-      memset (&fail, 0, sizeof (NagError));
+      std::memset (&fail, 0, sizeof (NagError));
       INIT_FAIL (fail);
 
       // Solver options.
-      Nag_E04_Opt options;
-      memset (&options, 0, sizeof (Nag_E04_Opt));
-      nag_opt_init (&options);
-      options.list = static_cast<Nag_Boolean> (
-        boost::get<bool> (this->parameters_["nag.list"].value));
-      options.print_level = static_cast<Nag_PrintType> (
-        boost::get<int> (this->parameters_["nag.print_level"].value));
-      boost::get<std::string> (this->parameters_["nag.outfile"].value)
-        .copy (options.outfile, 80);
-      options.print_fun = &detail::printFunction;
-      options.max_iter =
+      double tolx = boost::get<double> (this->parameters_["nag.tolx"].value);
+      double tolf = boost::get<double> (this->parameters_["nag.tolf"].value);
+      int max_iter =
         boost::get<int> (this->parameters_["max-iterations"].value);
 
-      nag_opt_simplex (problem ().function ().inputSize (),
-                       &detail::solverCallback, &x_[0], &f_[0], &options, &comm,
-                       &fail);
+      nag_opt_simplex_easy (problem ().function ().inputSize (),
+                            x_.data (), f_.data (), tolf, tolx,
+                            &detail::solverCallback, NULL, max_iter,
+                            &comm, &fail);
+
 
       if (fail.code == NE_NOERROR)
       {
