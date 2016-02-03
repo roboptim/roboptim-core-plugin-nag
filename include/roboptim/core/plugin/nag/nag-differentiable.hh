@@ -15,8 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with roboptim.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef ROBOPTIM_CORE_PLUGING_NAG_NAG_DIFFERENTIABLE_HH
-# define ROBOPTIM_CORE_PLUGING_NAG_NAG_DIFFERENTIABLE_HH
+#ifndef ROBOPTIM_CORE_PLUGIN_NAG_NAG_DIFFERENTIABLE_HH
+# define ROBOPTIM_CORE_PLUGIN_NAG_NAG_DIFFERENTIABLE_HH
+
 # include <vector>
 
 # include <roboptim/core/solver.hh>
@@ -39,29 +40,32 @@ namespace roboptim
   ///
   /// \see http://www.nag.com/numeric/CL/nagdoc_cl23/html/E04/e04bbc.html
   class ROBOPTIM_DLLEXPORT NagSolverDifferentiable
-    : public Solver<DifferentiableFunction, boost::mpl::vector<> >
+    : public Solver<DifferentiableFunction>
   {
   public:
-    typedef Solver<DifferentiableFunction, boost::mpl::vector<> > parent_t;
+    typedef Solver<DifferentiableFunction> parent_t;
+    typedef Function::argument_t argument_t;
+    typedef Function::result_t result_t;
+    typedef DifferentiableFunction::gradient_t gradient_t;
 
-    explicit NagSolverDifferentiable (const problem_t& pb) throw ();
-    virtual ~NagSolverDifferentiable () throw ();
+    explicit NagSolverDifferentiable (const problem_t& pb);
+    virtual ~NagSolverDifferentiable ();
 
     /// \brief Solve the problem.
-    void solve () throw ();
+    void solve ();
 
     void
-    setIterationCallback (callback_t callback) throw (std::runtime_error)
+    setIterationCallback (callback_t callback)
     {
       callback_ = callback;
     }
 
-    const callback_t& callback () const throw ()
+    const callback_t& callback () const
     {
       return callback_;
     }
 
-    solverState_t& solverState () throw ()
+    solverState_t& solverState ()
     {
       return this->solverState_;
     }
@@ -76,11 +80,11 @@ namespace roboptim
     /// \brief Upper bound.
     std::vector<double> b_;
     /// \brief Current minimum estimation.
-    Function::vector_t x_;
+    argument_t x_;
     /// \brief Current cost.
-    Function::vector_t f_;
+    result_t f_;
     /// \brief Current gradient.
-    Function::vector_t g_;
+    gradient_t g_;
 
     /// \brief Per-iteration callback function.
     callback_t callback_;
@@ -92,4 +96,4 @@ namespace roboptim
   /// @}
 } // end of namespace roboptim
 
-#endif //! ROBOPTIM_CORE_PLUGING_NAG_NAG_DIFFERENTIABLE_HH
+#endif //! ROBOPTIM_CORE_PLUGIN_NAG_NAG_DIFFERENTIABLE_HH
