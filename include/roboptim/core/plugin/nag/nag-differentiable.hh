@@ -40,10 +40,10 @@ namespace roboptim
   ///
   /// \see http://www.nag.com/numeric/CL/nagdoc_cl23/html/E04/e04bbc.html
   class ROBOPTIM_DLLEXPORT NagSolverDifferentiable
-    : public Solver<DifferentiableFunction>
+    : public Solver<EigenMatrixDense>
   {
   public:
-    typedef Solver<DifferentiableFunction> parent_t;
+    typedef Solver<EigenMatrixDense> parent_t;
     typedef Function::argument_t argument_t;
     typedef Function::result_t result_t;
     typedef DifferentiableFunction::gradient_t gradient_t;

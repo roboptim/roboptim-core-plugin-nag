@@ -40,24 +40,32 @@ namespace roboptim
     nagSolverCallbackDifferentiable (double xc, double* fc, double* gc,
 				     Nag_Comm* comm)
     {
+      typedef Function function_t;
+      typedef DifferentiableFunction differentiableFunction_t;
+
       assert (!!comm);
       assert (!!comm->p);
       NagSolverDifferentiable* solver =
 	static_cast<NagSolverDifferentiable*> (comm->p);
       assert (!!solver);
 
-      Eigen::Map<const DifferentiableFunction::vector_t> x_
+      const Eigen::Map<const function_t::argument_t> x_
 	(&xc, 1);
-      Eigen::Map<DifferentiableFunction::vector_t> fc_
+      Eigen::Map<function_t::result_t> fc_
 	(fc, solver->problem ().function ().outputSize ());
-      Eigen::Map<DifferentiableFunction::vector_t> gc_
+      Eigen::Map<differentiableFunction_t::gradient_t> gc_
 	(gc, solver->problem ().function ().inputSize ());
 
-      fc_.setZero ();
-      fc_ = solver->problem ().function () (x_);
+      const function_t& fun = solver->problem ().function ();
 
-      gc_.setZero ();
-      gc_ = solver->problem ().function ().gradient (x_, 0);
+      if (!fun.asType<differentiableFunction_t> ())
+        throw std::runtime_error ("cost function is not differentiable");
+
+      const differentiableFunction_t* dfun =
+        fun.castInto<differentiableFunction_t> ();
+      (*dfun) (fc_, x_);
+
+      dfun->gradient (gc_, x_, 0);
 
       if (!solver->callback ())
 	return;
@@ -66,7 +74,7 @@ namespace roboptim
     }
   } // end of namespace detail
 
-  NagSolverDifferentiable::NagSolverDifferentiable (const problem_t& pb) throw ()
+  NagSolverDifferentiable::NagSolverDifferentiable (const problem_t& pb)
     : parent_t (pb),
       e1_ (0.),
       e2_ (0.),
@@ -103,11 +111,11 @@ namespace roboptim
     DEFINE_PARAMETER ("nag.e2", "absolute accuracy (0 means default)", 0.);
   }
 
-  NagSolverDifferentiable::~NagSolverDifferentiable () throw ()
+  NagSolverDifferentiable::~NagSolverDifferentiable ()
   {}
 
   void
-  NagSolverDifferentiable::solve () throw ()
+  NagSolverDifferentiable::solve ()
   {
     // e1 and e2
     e1_ = boost::get<double> (this->parameters_["nag.e1"].value);
@@ -153,8 +161,7 @@ namespace roboptim
 extern "C"
 {
   typedef roboptim::NagSolverDifferentiable NagSolverDifferentiable;
-  typedef roboptim::Solver<roboptim::DifferentiableFunction,
-			   boost::mpl::vector<> > solver_t;
+  typedef roboptim::Solver<roboptim::EigenMatrixDense> solver_t;
 
   ROBOPTIM_DLLEXPORT unsigned getSizeOfProblem ();
   ROBOPTIM_DLLEXPORT const char* getTypeIdOfConstraintsList ();
