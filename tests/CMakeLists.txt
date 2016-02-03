@@ -17,6 +17,15 @@
 SET(PLUGIN_PATH "${CMAKE_BINARY_DIR}/src")
 INCLUDE(shared-tests/tests.cmake)
 
+SET(SOLVER_NAME "nag")
+SET(FUNCTION_TYPE ::roboptim::EigenMatrixDense)
+SET(PROGRAM_SUFFIX "")
+SET(COST_FUNCTION_TYPE ::roboptim::GenericDifferentiableFunction)
+SET(CONSTRAINT_TYPE_1 ::roboptim::GenericLinearFunction)
+SET(CONSTRAINT_TYPE_2 ::roboptim::GenericDifferentiableFunction)
+BUILD_COMMON_TESTS()
+BUILD_TEST("roboptim/simple-square")
+
 SET(SCHITTKOWSKI_PROBLEMS_FAIL
   2 8
   13 14 16
@@ -32,7 +41,9 @@ SET(PROGRAM_SUFFIX "-nlp")
 SET(COST_FUNCTION_TYPE ::roboptim::GenericDifferentiableFunction)
 SET(CONSTRAINT_TYPE_1 ::roboptim::GenericLinearFunction)
 SET(CONSTRAINT_TYPE_2 ::roboptim::GenericDifferentiableFunction)
+BUILD_COMMON_TESTS()
 BUILD_SCHITTKOWSKI_PROBLEMS()
+BUILD_QP_PROBLEMS()
 BUILD_ROBOPTIM_PROBLEMS()
 
 SET(SCHITTKOWSKI_PROBLEMS_FAIL ${SCHITTKOWSKI_PROBLEMS_FAIL}
@@ -44,5 +55,7 @@ SET(PROGRAM_SUFFIX "-nlp-sparse")
 SET(COST_FUNCTION_TYPE ::roboptim::GenericDifferentiableFunction)
 SET(CONSTRAINT_TYPE_1 ::roboptim::GenericLinearFunction)
 SET(CONSTRAINT_TYPE_2 ::roboptim::GenericDifferentiableFunction)
+BUILD_COMMON_TESTS()
 BUILD_SCHITTKOWSKI_PROBLEMS()
+BUILD_QP_PROBLEMS()
 BUILD_ROBOPTIM_PROBLEMS()
