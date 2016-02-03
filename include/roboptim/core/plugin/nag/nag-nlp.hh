@@ -19,17 +19,19 @@
 # define ROBOPTIM_CORE_PLUGING_NAG_NAG_NLP_HH
 # include <vector>
 
-# include <roboptim/core/solver.hh>
-# include <roboptim/core/linear-function.hh>
+# include <roboptim/core/portability.hh>
+# include <roboptim/core/function.hh>
 # include <roboptim/core/differentiable-function.hh>
 # include <roboptim/core/twice-differentiable-function.hh>
+
+# include "roboptim/core/plugin/nag/nag-common.hh"
 
 namespace roboptim
 {
   /// \addtogroup roboptim_solver
   /// @{
 
-  /// \brief Non-linear solver.
+  /// \brief Nonlinear solver.
   ///
   /// Minimize an arbitrary smooth function subject to constraints
   /// (which may include simple bounds on the variables, linear
@@ -41,35 +43,30 @@ namespace roboptim
   ///
   /// \see http://www.nag.com/numeric/CL/nagdoc_cl23/html/E04/e04wdc.html
   class ROBOPTIM_DLLEXPORT NagSolverNlp
-    : public Solver<DifferentiableFunction,
-		    boost::mpl::vector<LinearFunction,
-				       DifferentiableFunction> >
+    : public NagSolverCommon<EigenMatrixDense>
   {
   public:
-    typedef Solver<
-      DifferentiableFunction,
-      boost::mpl::vector<
-	LinearFunction, DifferentiableFunction> >
+    typedef NagSolverCommon<EigenMatrixDense>
       parent_t;
 
-    explicit NagSolverNlp (const problem_t& pb) throw ();
-    virtual ~NagSolverNlp () throw ();
+    explicit NagSolverNlp (const problem_t& pb);
+    virtual ~NagSolverNlp ();
 
     /// \brief Solve the problem.
-    void solve () throw ();
+    void solve ();
 
     void
-    setIterationCallback (callback_t callback) throw (std::runtime_error)
+    setIterationCallback (callback_t callback)
     {
       callback_ = callback;
     }
 
-    const callback_t& callback () const throw ()
+    const callback_t& callback () const
     {
       return callback_;
     }
 
-    solverState_t& solverState () throw ()
+    solverState_t& solverState ()
     {
       return solverState_;
     }
@@ -81,19 +78,19 @@ namespace roboptim
     Integer tda_;
     Integer tdcj_;
     Integer tdh_;
-    Function::vector_t objf_;
+    Function::result_t objf_;
 
     Function::matrix_t a_;
     Function::vector_t bl_;
     Function::vector_t bu_;
 
     Function::vector_t ccon_;
-    Function::matrix_t cjac_;
+    DifferentiableFunction::jacobian_t cjac_;
     Function::vector_t clamda_;
 
-    Function::vector_t grad_;
+    DifferentiableFunction::gradient_t grad_;
     TwiceDifferentiableFunction::hessian_t h_;
-    Function::vector_t x_;
+    Function::argument_t x_;
 
     callback_t callback_;
 
