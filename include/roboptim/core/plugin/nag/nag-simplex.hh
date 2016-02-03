@@ -71,21 +71,19 @@ namespace roboptim
       /// \brief Solve the problem.
       void solve ();
 
-
-      void
-      setIterationCallback (callback_t callback)
+      void setIterationCallback (callback_t callback)
       {
-	callback_ = callback;
+        callback_ = callback;
       }
 
       const callback_t& callback () const
       {
-	return callback_;
+        return callback_;
       }
 
       solverState_t& solverState ()
       {
-	return solverState_;
+        return solverState_;
       }
 
     private:
