@@ -54,8 +54,7 @@ namespace roboptim
     /// \brief Solve the problem.
     void solve ();
 
-    void
-    setIterationCallback (callback_t callback)
+    void setIterationCallback (callback_t callback)
     {
       callback_ = callback;
     }
