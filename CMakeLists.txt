@@ -73,7 +73,7 @@ LINK_DIRECTORIES("${NAG_DIR}/lib")
 LINK_DIRECTORIES("${NAG_DIR}/rtl/intel64")
 
 # Enable SIGFPE signal to detect arithmetic errors in tests
-OPTION(ENABLE_SIGFPE "Enable floating-point exceptions" ON)
+OPTION(ENABLE_SIGFPE "Enable floating-point exceptions" OFF)
 IF(ENABLE_SIGFPE)
   ADD_DEFINITIONS(-DENABLE_SIGFPE)
 ENDIF()
