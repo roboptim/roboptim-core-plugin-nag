@@ -15,8 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with roboptim.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef ROBOPTIM_CORE_PLUGING_NAG_NAG_NLP_SPARSE_HH
-# define ROBOPTIM_CORE_PLUGING_NAG_NAG_NLP_SPARSE_HH
+#ifndef ROBOPTIM_CORE_PLUGIN_NAG_NAG_NLP_SPARSE_HH
+# define ROBOPTIM_CORE_PLUGIN_NAG_NAG_NLP_SPARSE_HH
+
 # include <vector>
 
 # include <roboptim/core/solver.hh>
@@ -138,4 +139,4 @@ namespace roboptim
   /// @}
 } // end of namespace roboptim
 
-#endif //! ROBOPTIM_CORE_PLUGING_NAG_NAG_NLP_SPARSE_HH
+#endif //! ROBOPTIM_CORE_PLUGIN_NAG_NAG_NLP_SPARSE_HH
