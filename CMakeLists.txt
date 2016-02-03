@@ -62,7 +62,10 @@ ENDIF()
 ADD_REQUIRED_DEPENDENCY("roboptim-core >= 3.2")
 
 # Look for NAG.
-FIND_PATH(NAG_DIR include/nag.h HINTS /opt/NAG/cll6a23dhl/ /opt/NAG/cll6i24dcl/)
+FIND_PATH(NAG_DIR include/nag.h HINTS
+  /opt/NAG/cll6a23dhl
+  /opt/NAG/cll6i24dcl
+  /opt/NAG/cll6i25dcl)
 MESSAGE(STATUS "NAG_DIR: " ${NAG_DIR})
 
 INCLUDE_DIRECTORIES("${NAG_DIR}/include")
