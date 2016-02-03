@@ -20,7 +20,6 @@
 # include <vector>
 
 # include <roboptim/core/portability.hh>
-# include <roboptim/core/solver.hh>
 # include <roboptim/core/function.hh>
 
 # include "roboptim/core/plugin/nag/nag-common.hh"
