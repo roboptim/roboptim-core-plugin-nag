@@ -17,6 +17,7 @@
 
 #include <cassert>
 #include <cstring>
+#include <stdexcept>
 
 #include <boost/format.hpp>
 #include <boost/scoped_ptr.hpp>
@@ -696,10 +697,11 @@ namespace roboptim
 
     nag_opt_sparse_nlp_solve (
       Nag_Cold, nf_, n_, nxname_, nfname_, objadd_, objrow_, "RobOptim problem",
-      detail::usrfun, &iafun_[0], &javar_[0], &a_[0], lena_, nea_, &igfun_[0],
-      &jgvar_[0], leng_, neg_, &xlow_[0], &xupp_[0], &xnames_[0], &flow_[0],
-      &fupp_[0], &fnames_[0], &x_[0], &xstate_[0], &xmul_[0], &f_[0],
-      &fstate_[0], &fmul_[0], &ns_, &ninf_, &sinf_, &state, &comm, &fail);
+      detail::usrfun, iafun_.data (), javar_.data (), a_.data (), lena_, nea_,
+      igfun_.data (), jgvar_.data (), leng_, neg_, xlow_.data (), xupp_.data (),
+      xnames_.data (), flow_.data (), fupp_.data (), fnames_.data (),
+      x_.data (), xstate_.data (), xmul_.data (), f_.data (), fstate_.data (),
+      fmul_.data (), &ns_, &ninf_, &sinf_, &state, &comm, &fail);
 
     Result res (problem ().function ().inputSize (),
                 problem ().function ().outputSize ());
