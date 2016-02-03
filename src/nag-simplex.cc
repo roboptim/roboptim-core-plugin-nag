@@ -75,7 +75,7 @@ namespace roboptim
     } // end of namespace detail
 
 
-    Simplex::Simplex (const problem_t& pb) throw ()
+    Simplex::Simplex (const problem_t& pb)
       : parent_t (pb),
 	x_ (problem ().function ().inputSize ()),
 	f_ (problem ().function ().outputSize ()),
@@ -106,12 +106,12 @@ namespace roboptim
 
     }
 
-    Simplex::~Simplex () throw ()
+    Simplex::~Simplex ()
     {
     }
 
     void
-    Simplex::solve () throw ()
+    Simplex::solve ()
     {
       // Solution.
       if (problem ().startingPoint ())
@@ -164,8 +164,7 @@ namespace roboptim
 extern "C"
 {
   typedef roboptim::nag::Simplex Simplex;
-  typedef roboptim::Solver<roboptim::DifferentiableFunction,
-			   boost::mpl::vector<> > solver_t;
+  typedef roboptim::Solver<roboptim::EigenMatrixDense> solver_t;
 
   ROBOPTIM_DLLEXPORT unsigned getSizeOfProblem ();
   ROBOPTIM_DLLEXPORT const char* getTypeIdOfConstraintsList ();
