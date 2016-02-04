@@ -1,10 +1,10 @@
 var a00003 =
 [
-    [ "parent_t", "a00003.html#af282944b006921e483f1fccb1eb09a74", null ],
-    [ "NagSolverNlp", "a00003.html#a24931f037837930d7ecc0de569299bc7", null ],
-    [ "~NagSolverNlp", "a00003.html#a5a268d8694ad3df56f669880718c0327", null ],
-    [ "callback", "a00003.html#a1debfe974df175cb229cfd278c3f9afa", null ],
-    [ "setIterationCallback", "a00003.html#a7ee0b4d65c8a918b3a7d4744f08be89a", null ],
-    [ "solve", "a00003.html#a3842c34e1745641b9518a073df0a58b3", null ],
-    [ "solverState", "a00003.html#a5e3719f6bbb81cef58ef352891497a0e", null ]
+    [ "problem_t", "a00003.html#a32e1d923fc6d77574a2b91da6cb77dd7", null ],
+    [ "solver_t", "a00003.html#a3cd2114a972f3d7a1c1132bf7fae8471", null ],
+    [ "ConstraintType", "a00003.html#a57a1e47d5f2974e78da7d2440b83bef7", null ],
+    [ "NagSolverCommon", "a00003.html#a99bb5089fdb36eed3f0dd741325db871", null ],
+    [ "~NagSolverCommon", "a00003.html#a735dfe1efae3811dafc5b3ca3a65a7c7", null ],
+    [ "initializeParameters", "a00003.html#a9339c61ab94df921744efcb0e44fdc33", null ],
+    [ "updateParameters", "a00003.html#a55970317b75bfd37c00150f6736e2f12", null ]
 ];

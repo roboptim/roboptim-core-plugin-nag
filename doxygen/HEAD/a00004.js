@@ -1,16 +1,13 @@
 var a00004 =
 [
-    [ "function_t", "a00004.html#a231329a6e916cb167a3d7cb8e3fbd43f", null ],
-    [ "linearFunction_t", "a00004.html#a36d4248f86db4ef1d892404abf361f88", null ],
-    [ "nonlinearFunction_t", "a00004.html#a14418b956a56269d6e56f96618de8a78", null ],
-    [ "numericLinearFunction_t", "a00004.html#a5144dfad8d225a7f77a455753b90b26d", null ],
-    [ "parent_t", "a00004.html#a1a91727a49c12490110157c1538fc033", null ],
-    [ "NagSolverNlpSparse", "a00004.html#a6f021709c41d9b45513016827d0934ca", null ],
-    [ "~NagSolverNlpSparse", "a00004.html#a654121691335a1c7da8ea90c128f13d0", null ],
-    [ "callback", "a00004.html#a47f584e73e6724604c08233f710af4cb", null ],
-    [ "setIterationCallback", "a00004.html#a60cb70c9f6b0ccbbbedf3efa661a867a", null ],
-    [ "solve", "a00004.html#a95d33fa8e5a017209abc728ef1c16376", null ],
-    [ "solverState", "a00004.html#a1c3d815d07fcfeff3cb75995cfc86ef7", null ],
-    [ "linearFunctionId", "a00004.html#a3c5f04187c0f595f85b457252f12b92b", null ],
-    [ "nonlinearFunctionId", "a00004.html#afd80a91e3aa351d08b2fc1a55f21c6bc", null ]
+    [ "argument_t", "a00004.html#aebbe8b8d71612d8c7511a1eccd21fb44", null ],
+    [ "gradient_t", "a00004.html#a9d9b92a2401a76f69da1dbd908de02c0", null ],
+    [ "parent_t", "a00004.html#a4dad833295ad357030ae537add7a7159", null ],
+    [ "result_t", "a00004.html#a7d1dd5451449d8720699a155467991f3", null ],
+    [ "NagSolverDifferentiable", "a00004.html#a80ca52a3d81f3ed307a11888e532c6ad", null ],
+    [ "~NagSolverDifferentiable", "a00004.html#ae058bd0b86f98ee14fa066e69f2dee2a", null ],
+    [ "callback", "a00004.html#ad9ee9d822aeb4cb3d275e2946a69fcd6", null ],
+    [ "setIterationCallback", "a00004.html#abe24d98530a7e3e5860a41ad1a3b06bc", null ],
+    [ "solve", "a00004.html#a7fd4c0bc5c60c0cc738fa239536efd7e", null ],
+    [ "solverState", "a00004.html#ac72e6676e6ad388f69f7e14624d8a162", null ]
 ];

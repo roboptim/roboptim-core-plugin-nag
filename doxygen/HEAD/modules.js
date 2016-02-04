@@ -1,4 +1,5 @@
 var modules =
 [
-    [ "Roboptim_solver", "a00021.html", null ]
+    [ "Roboptim_problem", "a00027.html", null ],
+    [ "Roboptim_solver", "a00028.html", null ]
 ];

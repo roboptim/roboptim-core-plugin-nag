@@ -1,7 +1,9 @@
 var a00001 =
 [
-    [ "parent_t", "a00001.html#a62c7100e765aabcc3af0b7692cbaac0c", null ],
-    [ "NagSolver", "a00001.html#ad4a434f4dc2bbec4ffbc4125fbe1bf1e", null ],
-    [ "~NagSolver", "a00001.html#ae51a985e0f8d6a6555fba42e3aefc4e0", null ],
-    [ "solve", "a00001.html#affa452e08cae147d0cbd52acb927be55", null ]
+    [ "NagParametersUpdater", "a00001.html#afba6c050c8d8ac4d08b0797b0a34c0c4", null ],
+    [ "operator()", "a00001.html#a42dc48e94b35b092b6fe03df3dc4a572", null ],
+    [ "operator()", "a00001.html#ad4d4b58456c7761164d160f27dcb70d9", null ],
+    [ "operator()", "a00001.html#a42b97df31b43d7d4a44c541d1c773c37", null ],
+    [ "operator()", "a00001.html#ae029163246748d92191219dfa0cddeb4", null ],
+    [ "operator()", "a00001.html#a1b0d9bf10353261bf2c0d5c812c62bff", null ]
 ];

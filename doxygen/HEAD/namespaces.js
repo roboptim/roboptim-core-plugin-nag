@@ -1,7 +1,7 @@
 var namespaces =
 [
-    [ "roboptim", "a00016.html", "a00016" ],
-    [ "roboptim::detail", "a00017.html", "a00017" ],
-    [ "roboptim::nag", "a00018.html", "a00018" ],
-    [ "roboptim::nag::detail", "a00019.html", "a00019" ]
+    [ "roboptim", "a00022.html", "a00022" ],
+    [ "roboptim::detail", "a00023.html", "a00023" ],
+    [ "roboptim::nag", "a00024.html", "a00024" ],
+    [ "roboptim::nag::detail", "a00025.html", "a00025" ]
 ];

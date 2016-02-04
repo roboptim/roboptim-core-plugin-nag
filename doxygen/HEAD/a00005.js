@@ -1,10 +1,10 @@
 var a00005 =
 [
-    [ "parent_t", "a00005.html#a6336145f11f6e579f859a3ce891f5130", null ],
-    [ "Simplex", "a00005.html#a8f7171767e35e0477d7dd76d16be0849", null ],
-    [ "~Simplex", "a00005.html#a2cb9f1e5d5b8acd96b11dc2d90b69fbc", null ],
-    [ "callback", "a00005.html#ae1b631b97f58993e909f6659f2e73af3", null ],
-    [ "setIterationCallback", "a00005.html#a6bd09a191ba0500d2cb94c1cc4de2fc5", null ],
-    [ "solve", "a00005.html#aa3c4c996db2dd759f68fa82ee5da1679", null ],
-    [ "solverState", "a00005.html#aaca784fb0bb92470c9b2320a938b1d61", null ]
+    [ "parent_t", "a00005.html#aa0e3cf62d7f085bc50b6639ad4811627", null ],
+    [ "NagSolverNlp", "a00005.html#a24931f037837930d7ecc0de569299bc7", null ],
+    [ "~NagSolverNlp", "a00005.html#a5a268d8694ad3df56f669880718c0327", null ],
+    [ "callback", "a00005.html#a1debfe974df175cb229cfd278c3f9afa", null ],
+    [ "setIterationCallback", "a00005.html#a7ee0b4d65c8a918b3a7d4744f08be89a", null ],
+    [ "solve", "a00005.html#a3842c34e1745641b9518a073df0a58b3", null ],
+    [ "solverState", "a00005.html#a5e3719f6bbb81cef58ef352891497a0e", null ]
 ];
