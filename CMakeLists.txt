@@ -24,6 +24,11 @@ SET(PROJECT_DESCRIPTION "RobOptim core NAG plug-in")
 SET(PROJECT_URL "https://github.com/roboptim/roboptim-core-plugin-nag")
 
 SET(HEADERS
+  ${CMAKE_SOURCE_DIR}/include/roboptim/core/plugin/nag/nag.hh
+  ${CMAKE_SOURCE_DIR}/include/roboptim/core/plugin/nag/nag-differentiable.hh
+  ${CMAKE_SOURCE_DIR}/include/roboptim/core/plugin/nag/nag-nlp.hh
+  ${CMAKE_SOURCE_DIR}/include/roboptim/core/plugin/nag/nag-nlp-sparse.hh
+  ${CMAKE_SOURCE_DIR}/include/roboptim/core/plugin/nag/nag-simplex.hh
   )
 
 SET(PKG_CONFIG_ADDITIONAL_VARIABLES plugindir ${PKG_CONFIG_ADDITIONAL_VARIABLES})
@@ -88,5 +93,7 @@ ELSE()
   MESSAGE(WARNING
     "Tests should only be disabled for speficic cases. Do it at your own risk.")
 ENDIF()
+
+HEADER_INSTALL("${HEADERS}")
 
 SETUP_PROJECT_FINALIZE()
